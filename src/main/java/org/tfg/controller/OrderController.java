@@ -30,4 +30,13 @@ public class OrderController {
     @GetMapping("/getOrders")
     public List<Order> getAll(){  return this.orderService.getAll();}
 
+    @GetMapping("/getOrdersOfCompany/{companyId}")
+    public List<Order> getOrdersOfCompany(@PathVariable String companyId){
+        return this.orderService.findByCompanyId(companyId);
+    }
+
+    @GetMapping("/getOrdersOfCustomer/{customerId}")
+    public List<Order> getOrdersOfCustomer(@PathVariable String customerId){
+        return this.orderService.findByCustomerId(customerId);
+    }
 }

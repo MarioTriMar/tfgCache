@@ -43,4 +43,20 @@ public class OrderSevice {
     public List<Order> getAll() {
         return this.orderDAO.findAll();
     }
+
+    public List<Order> findByCompanyId(String companyId) {
+        Optional<Company> optCompany = this.companyDAO.findById(companyId);
+        if(optCompany.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
+        }
+        return this.orderDAO.findByCompany(optCompany.get());
+    }
+
+    public List<Order> findByCustomerId(String customerId) {
+        Optional<Customer> optCustomer = this.customerDAO.findById(customerId);
+        if(optCustomer.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer doesn't exist");
+        }
+        return this.orderDAO.findByCustomer(optCustomer.get());
+    }
 }
