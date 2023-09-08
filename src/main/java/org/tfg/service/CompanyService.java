@@ -23,4 +23,12 @@ public class CompanyService {
     public List<Company> getAll(){
         return this.companyDAO.findAll();
     }
+
+    public void update(Company company) {
+        this.companyDAO.save(company);
+    }
+
+    public void deleteById(String companyId) {
+        this.companyDAO.deleteById(companyId);
+    }
 }

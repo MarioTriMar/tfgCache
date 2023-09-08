@@ -20,4 +20,8 @@ public class CustomerService {
     }
 
     public List<Customer> getAll(){ return this.customerDAO.findAll(); }
+
+    public void update(Customer customer) {
+        this.customerDAO.save(customer);
+    }
 }

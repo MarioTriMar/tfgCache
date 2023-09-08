@@ -36,4 +36,14 @@ public class CompanyController {
     public List<Company> getCompanies(){
         return this.companyService.getAll();
     }
+
+    @PutMapping("/updateCompany")
+    public void update(@RequestBody Company company){
+        this.companyService.update(company);
+    }
+
+    @DeleteMapping("/deleteCompany/{companyId}")
+    public void deleteCompany(@PathVariable String companyId){
+        this.companyService.deleteById(companyId);
+    }
 }

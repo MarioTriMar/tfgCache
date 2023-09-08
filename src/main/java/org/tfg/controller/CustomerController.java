@@ -34,4 +34,14 @@ public class CustomerController {
 
     @GetMapping("/getCustomers")
     public List<Customer> getCustomers(){  return this.customerService.getAll();}
+
+    @PutMapping("/updateCustomer")
+    public void update(@RequestBody Customer customer){
+        this.customerService.update(customer);
+    }
+
+    @DeleteMapping("/deleteCustomer/{customerId}")
+    public void deleteCustomer(@PathVariable String companyId){
+        //qué borrar??
+    }
 }

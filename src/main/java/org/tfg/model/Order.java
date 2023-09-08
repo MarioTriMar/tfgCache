@@ -3,7 +3,9 @@ package org.tfg.model;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 import java.util.UUID;
+import java.sql.Timestamp;
 
 @Entity
 @Table(
@@ -13,15 +15,18 @@ public class Order {
     @Id
     @Column(length=36)
     private String id;
-    @OneToOne
+    @ManyToOne
     private Company company;
-    @OneToOne
+    @ManyToOne
     private Customer customer;
     @NotEmpty
     private double price;
+    @NotEmpty
+    private Timestamp creationTime;
 
     public Order(){
         this.id= UUID.randomUUID().toString();
+        this.creationTime=new Timestamp(System.currentTimeMillis());
     }
 
     public String getId() {
@@ -55,5 +60,13 @@ public class Order {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Timestamp creationTime) {
+        this.creationTime = creationTime;
     }
 }

@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="Microservicio inicial">
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="GetOrdes by companies and customers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/repository/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/repository/OrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderSevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderSevice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1694166082748</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="GetOrdes by companies and customers">
+      <option name="closed" value="true" />
+      <created>1694169261504</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1694169261504</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -150,17 +160,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Microservicio inicial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Microservicio inicial" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java</url>
-          <line>34</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="GetOrdes by companies and customers" />
+    <option name="LAST_COMMIT_MESSAGE" value="GetOrdes by companies and customers" />
   </component>
 </project>
