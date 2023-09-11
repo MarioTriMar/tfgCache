@@ -32,10 +32,16 @@ public class CompanyController {
         this.companyService.save(name, cif, contactEmail);
     }
 
+    @GetMapping("/getCompanyById/{id}")
+    public Company getCompanyById(@PathVariable String id){
+        return this.companyService.findCompanyById(id);
+    }
+
     @GetMapping("/getCompanies")
     public List<Company> getCompanies(){
         return this.companyService.getAll();
     }
+
 
     @PutMapping("/updateCompany")
     public void update(@RequestBody Company company){

@@ -32,6 +32,11 @@ public class CustomerController {
         this.customerService.save(name, email);
     }
 
+    @GetMapping("/getCustomerById/{id}")
+    public Customer getCustomerById(@PathVariable String id){
+        return this.customerService.findCustomerById(id);
+    }
+
     @GetMapping("/getCustomers")
     public List<Customer> getCustomers(){  return this.customerService.getAll();}
 
