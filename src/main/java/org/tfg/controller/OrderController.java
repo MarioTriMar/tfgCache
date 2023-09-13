@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 import org.tfg.model.Order;
+import org.tfg.model.Product;
 import org.tfg.service.OrderSevice;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +24,10 @@ public class OrderController {
 
         String companyId=info.get("companyId").toString();
         String customerId=info.get("customerId").toString();
-        double price=(Double)info.get("price");
+        Map<String,Product> products=(Map<String, Product>)info.get("products");
 
-        this.orderService.saveOrder(companyId, customerId, price);
+
+        this.orderService.saveOrder(companyId, customerId, products);
     }
 
     @GetMapping("/getOrders")
@@ -44,7 +47,7 @@ public class OrderController {
     public List<Order> getOrdersOfCustomer(@PathVariable String customerId){
         return this.orderService.findByCustomerId(customerId);
     }
-
+    /*
     @GetMapping("/duplicate")
     public void duplicate(){
         List<Order> pedidos=this.orderService.getAll();
@@ -52,4 +55,6 @@ public class OrderController {
             this.orderService.saveOrder(pedidos.get(i).getCompany().getId(), pedidos.get(i).getCustomer().getId(), pedidos.get(i).getPrice()+43.00);
         }
     }
+    */
+
 }

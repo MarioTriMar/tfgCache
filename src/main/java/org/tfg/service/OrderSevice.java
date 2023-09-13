@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import org.tfg.model.Company;
-import org.tfg.model.Customer;
-import org.tfg.model.Order;
+import org.tfg.model.*;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.CustomerDAO;
 import org.tfg.repository.OrderDAO;
+import org.tfg.repository.ProductDAO;
 
-import java.util.List;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Service
 public class OrderSevice {
@@ -23,9 +22,12 @@ public class OrderSevice {
     private CompanyDAO companyDAO;
     @Autowired
     private CustomerDAO customerDAO;
+    @Autowired
+    private ProductDAO productDAO;
 
-    public void saveOrder(String companyId, String customerId, double price) {
-        Order order=new Order();
+    public void saveOrder(String companyId, String customerId, Map<String, Product> products) {
+        String id= UUID.randomUUID().toString();
+        Timestamp creationTime=new Timestamp(System.currentTimeMillis());
         Optional<Company> optCompany = this.companyDAO.findById(companyId);
         Optional<Customer> optCustomer=this.customerDAO.findById(customerId);
         if(optCustomer.isEmpty()){
@@ -34,10 +36,32 @@ public class OrderSevice {
         if(optCompany.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
         }
+        Set<String> keys=products.keySet();
+        List<String> keyList=new ArrayList<>(keys);
+        List<Product> productList=new ArrayList<>();
+        for(int i=0;i<keyList.size();i++){
+            Optional<Product> optProduct=this.productDAO.findById(keyList.get(i));
+            if(optProduct.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product doesn't exist");
+            }
+            productList.add(optProduct.get());
+        }
+        Order order=new Order();
+        order.setId(id);
+        order.setCreationTime(creationTime);
         order.setCompany(optCompany.get());
         order.setCustomer(optCustomer.get());
-        order.setPrice(price);
+        order.setProduct(productList);
+        for(int i=0;i<order.getProduct().size();i++){
+            order.setPrice(order.getPrice()+order.getProduct().get(i).getPrice());
+        }
         this.orderDAO.save(order);
+        /*
+        for(int i=0;i<order.getProduct().size();i++){
+            this.orderDAO.updateOrdersProduct(order.getId(), order.getProduct().get(i).getId(),
+                    Integer.parseInt(products.get(order.getProduct().get(i).getId()).toString()));
+        }
+         */
     }
 
     public List<Order> getAll() {
