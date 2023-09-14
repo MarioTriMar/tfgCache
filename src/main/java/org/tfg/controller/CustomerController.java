@@ -45,8 +45,4 @@ public class CustomerController {
         this.customerService.update(customer);
     }
 
-    @DeleteMapping("/deleteCustomer/{customerId}")
-    public void deleteCustomer(@PathVariable String companyId){
-        //qué borrar??
-    }
 }

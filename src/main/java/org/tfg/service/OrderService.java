@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Service
-public class OrderSevice {
+public class OrderService {
 
     @Autowired
     private OrderDAO orderDAO;
@@ -25,45 +25,31 @@ public class OrderSevice {
     @Autowired
     private ProductDAO productDAO;
 
-    public void saveOrder(String companyId, String customerId, Map<String, Product> products) {
+    public void saveOrder(String companyId, String customerId, List<String> products) {
         String id= UUID.randomUUID().toString();
         Timestamp creationTime=new Timestamp(System.currentTimeMillis());
-        Optional<Company> optCompany = this.companyDAO.findById(companyId);
-        Optional<Customer> optCustomer=this.customerDAO.findById(customerId);
-        if(optCustomer.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer doesn't exist");
-        }
-        if(optCompany.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
-        }
-        Set<String> keys=products.keySet();
-        List<String> keyList=new ArrayList<>(keys);
+        Company company=existCompany(companyId);
+        Customer customer=existCustomer(customerId);
         List<Product> productList=new ArrayList<>();
-        for(int i=0;i<keyList.size();i++){
-            Optional<Product> optProduct=this.productDAO.findById(keyList.get(i));
-            if(optProduct.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product doesn't exist");
-            }
-            productList.add(optProduct.get());
+        for(int i=0;i<products.size();i++){
+            Product product=existProduct(products.get(i));
+            productList.add(product);
         }
+        makeOrder(id, creationTime, company, customer, productList);
+    }
+    private void makeOrder(String id, Timestamp creationTime, Company company, Customer customer,
+                          List<Product> productList){
         Order order=new Order();
         order.setId(id);
         order.setCreationTime(creationTime);
-        order.setCompany(optCompany.get());
-        order.setCustomer(optCustomer.get());
+        order.setCompany(company);
+        order.setCustomer(customer);
         order.setProduct(productList);
         for(int i=0;i<order.getProduct().size();i++){
             order.setPrice(order.getPrice()+order.getProduct().get(i).getPrice());
         }
         this.orderDAO.save(order);
-        /*
-        for(int i=0;i<order.getProduct().size();i++){
-            this.orderDAO.updateOrdersProduct(order.getId(), order.getProduct().get(i).getId(),
-                    Integer.parseInt(products.get(order.getProduct().get(i).getId()).toString()));
-        }
-         */
     }
-
     public List<Order> getAll() {
         return this.orderDAO.findAll();
     }
@@ -76,20 +62,35 @@ public class OrderSevice {
         return optOrder.get();
     }
     public List<Order> findByCompanyId(String companyId) {
-        Optional<Company> optCompany = this.companyDAO.findById(companyId);
-        if(optCompany.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
-        }
-        return this.orderDAO.findByCompany(optCompany.get());
+        Company company=existCompany(companyId);
+        return this.orderDAO.findByCompany(company);
     }
 
     public List<Order> findByCustomerId(String customerId) {
-        Optional<Customer> optCustomer = this.customerDAO.findById(customerId);
+        Customer customer=existCustomer(customerId);
+        return this.orderDAO.findByCustomer(customer);
+    }
+
+    private Company existCompany(String companyId){
+        Optional<Company> optCompany=this.companyDAO.findById(companyId);
+        if(optCompany.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
+        }
+        return optCompany.get();
+    }
+    private Customer existCustomer(String customerId){
+        Optional<Customer> optCustomer=this.customerDAO.findById(customerId);
         if(optCustomer.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer doesn't exist");
         }
-        return this.orderDAO.findByCustomer(optCustomer.get());
+        return optCustomer.get();
     }
-
+    private Product existProduct(String productId){
+        Optional<Product> optionalProduct=this.productDAO.findById(productId);
+        if(optionalProduct.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product doesn't exist");
+        }
+        return optionalProduct.get();
+    }
 
 }

@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 import org.tfg.model.Order;
-import org.tfg.model.Product;
-import org.tfg.service.OrderSevice;
+import org.tfg.service.OrderService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,15 +15,13 @@ import java.util.Map;
 public class OrderController {
 
     @Autowired
-    private OrderSevice orderService;
+    private OrderService orderService;
 
     @PostMapping("/saveOrder")
     public void saveOrder(@RequestBody Map<String, Object> info){
-
         String companyId=info.get("companyId").toString();
         String customerId=info.get("customerId").toString();
-        Map<String,Product> products=(Map<String, Product>)info.get("products");
-
+        List<String> products=(List<String>)info.get("products");
 
         this.orderService.saveOrder(companyId, customerId, products);
     }

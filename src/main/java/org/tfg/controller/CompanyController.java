@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.tfg.model.Company;
+import org.tfg.model.Product;
 import org.tfg.service.CompanyService;
 
 import java.util.List;
@@ -42,6 +43,10 @@ public class CompanyController {
         return this.companyService.getAll();
     }
 
+    @GetMapping("/getCompanyProducts/{id}")
+    public List<Product> getCompanyProducts(@PathVariable String id){
+        return this.companyService.findCompanyProducts(id);
+    }
 
     @PutMapping("/updateCompany")
     public void update(@RequestBody Company company){

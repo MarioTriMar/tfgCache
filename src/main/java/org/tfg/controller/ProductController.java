@@ -6,6 +6,7 @@ import org.tfg.model.Company;
 import org.tfg.model.Product;
 import org.tfg.service.ProductService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,5 +26,20 @@ public class ProductController {
         String companyId=info.get("companyId").toString();
 
         this.productService.save(name, details, price, companyId);
+    }
+
+    @PutMapping("/updateProduct")
+    public void updateProduct(@RequestBody Map<String,Object> product){
+        String id=product.get("id").toString();
+        String name=product.get("name").toString();
+        String details=product.get("details").toString();
+        double price=(double)product.get("price");
+        String companyId=product.get("company").toString();
+        this.productService.updateProduct(id,name,details,price,companyId);
+    }
+
+    @GetMapping("/getProducts")
+    public List<Product> getAllProducts(){
+        return this.productService.getAll();
     }
 }

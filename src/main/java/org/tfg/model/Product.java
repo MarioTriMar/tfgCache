@@ -3,8 +3,7 @@ package org.tfg.model;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +25,9 @@ public class Product {
 
     @ManyToOne
     private Company company;
+
+    @ManyToMany(mappedBy = "product")
+    private List<Order> orders;
 
     public Product(){
         this.id= UUID.randomUUID().toString();
