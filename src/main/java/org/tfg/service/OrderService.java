@@ -35,6 +35,8 @@ public class OrderService {
     activadas la compañia y el cliente.
     Una vez hecho esto recorre la lista de productos comprobando si estos existen y si están
     en stock.
+    Llama al método belongsProductToCompany para saber si la lista de productos pertenecen a la
+    compañía.
     Si cumple todas las condiciones llama al método makeOrder.
      */
     public void saveOrder(String companyId, String customerId, List<String> products) {
@@ -47,7 +49,24 @@ public class OrderService {
             Product product=this.controlMethods.existProduct(products.get(i), true);
             productList.add(product);
         }
+        if(!belongsProductToCompany(companyId, productList)){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Products doesn't belong to the company");
+        }
         this.makeOrder(id, creationTime, company, customer, productList);
+    }
+
+    /*
+    Este método recibe por parámetros el id de la compañía y la lista de productos
+    del pedido. Comprueba si esos pedidos pertenecen a la compaía a la que se quiere hacer
+    el pedido.
+     */
+    private boolean belongsProductToCompany(String companyId, List<Product> productList) {
+        List<Product> companyProduct=this.productDAO.findByCompanyId(companyId);
+        if(companyProduct.containsAll(productList)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /*
