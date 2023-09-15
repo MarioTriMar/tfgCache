@@ -19,12 +19,23 @@ import java.util.UUID;
 public class Company {
     @Id @Column(length=36)
     private String id;
+    //id de la compañía, se genera la llamar al constructor
+
     @Column(length=100) @NotEmpty
     private String name;
+    //nombre de la compañía
+
     @Column(length=100) @NotEmpty
     private String cif;
+    //codigo de identificación fiscal
+
     @Column(length=140) @NotEmpty
     private String contactEmail;
+    //email de contacto
+
+    @NotEmpty
+    private boolean enabled;
+    //flag para el estado de la compañia
 
     public Company(){
         this.id= UUID.randomUUID().toString();
@@ -60,5 +71,13 @@ public class Company {
 
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -17,10 +17,19 @@ public class Customer {
     @Id
     @Column(length=36)
     private String id;
+    //id del cliente, se genera al llamar al constructor
+
     @Column(length=100) @NotEmpty
     private String name;
+    //nombre del cliente
+
     @Column(length=140) @NotEmpty
     private String email;
+    //email del cliente
+
+    @NotEmpty
+    private boolean enabled;
+    //flag para el estado del cliente
 
     public Customer(){
         this.id= UUID.randomUUID().toString();
@@ -48,5 +57,13 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
