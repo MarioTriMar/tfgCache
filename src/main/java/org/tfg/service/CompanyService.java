@@ -23,17 +23,31 @@ public class CompanyService {
     @Autowired
     private ProductDAO productDAO;
 
-    private Logger logger= LoggerFactory.getLogger(CompanyService.class);
+    @Autowired
+    private ControlMethods controlMethods;
 
+
+
+    /*
+    Este método recibe por parametros el nombre, el cif y el email de contacto
+    de la compañía.
+    Crea el objeto Company y le asigna el nombre, el cif, el email y que está activa.
+    Guarda la compañía en la BBDD.
+     */
     public void save(String name, String cif, String contactEmail){
-        logger.info("SAVING COMPANY");
         Company company=new Company();
         company.setName(name);
         company.setCif(cif);
         company.setContactEmail(contactEmail);
+        company.setEnabled(true);
         this.companyDAO.save(company);
     }
 
+    /*
+    Este método recibe por parámetro el id de la compañía.
+    Busca dicha compañía en la BBDD, en caso de no estar lanza un 404.
+    Si la encuentra la devuelve.
+     */
     public Company findCompanyById(String id) {
         Optional<Company> optCompany=this.companyDAO.findById(id);
         if(optCompany.isEmpty()){
@@ -41,25 +55,42 @@ public class CompanyService {
         }
         return optCompany.get();
     }
+
+    /*
+    Este método devuelve la lista de compañías.
+     */
     public List<Company> getAll(){
         return this.companyDAO.findAll();
     }
 
+    /*
+    Este método recibe por parametro una compañía.
+    Su función es actualizarla.
+     */
     public void update(Company company) {
         this.companyDAO.save(company);
     }
 
-    public void deleteById(String companyId) {
-        this.companyDAO.deleteById(companyId);
-    }
 
-
+    /*
+    Este método recibe por parámetros el id de una compañía.
+    Su función es listar todos los productos de dicha compañía.
+    Primero comprobará la existencia de dicha compañía (llamando al método
+    existCompany de la clase ControlMethods).
+     */
     public List<Product> findCompanyProducts(String id) {
-        Optional<Company> optCompany=this.companyDAO.findById(id);
-        if(optCompany.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
-        }
-        return this.productDAO.findByCompanyId(id);
+        Company company=this.controlMethods.existCompany(id, false);
+        return this.productDAO.findByCompanyId(company.getId());
     }
 
+    /*
+    Este método recibe por parámetros el id de una compañía.
+    Su función es cambiar el estado en el que esta se encuentra.
+    Primero comprobará la existencia de esta.
+     */
+    public void changeState(String companyId) {
+        Company company=this.controlMethods.existCompany(companyId, false);
+        company.setEnabled(!company.isEnabled());
+        this.companyDAO.save(company);
+    }
 }

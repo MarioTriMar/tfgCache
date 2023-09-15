@@ -14,10 +14,21 @@ public class Order {
     @Id
     @Column(length=36)
     private String id;
+    //id del pedido
+
     @ManyToOne
     private Company company;
+    /*
+    Relación, una compañia puede tener muchos
+    pedidos y un pedido pertenece a una compañía.
+     */
+
     @ManyToOne
     private Customer customer;
+    /*
+    Relación, un cliente puede tener muchos
+    pedidos y un pedido pertenece a un cliente.
+     */
 
     @ManyToMany
     @JoinTable(
@@ -26,14 +37,18 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name="product_id")
     )
     private List<Product> product;
+    /*
+    Relación, un pedido puede tener muchos
+    productos y un producto puede pertenecer a muchos pedidos.
+     */
 
     @NotEmpty
     private double price;
-
+    //precio total del pedido (suma de precio de productos)
 
     @NotEmpty
     private Timestamp creationTime;
-
+    //fecha de creación del pedido
     public Order(){
     }
 

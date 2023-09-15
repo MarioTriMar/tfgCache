@@ -14,20 +14,37 @@ public class Product {
     @Id
     @Column(length=36)
     private String id;
+    //id del producto, se genera al llamar al constructor
 
     @Column(length=100) @NotEmpty
     private String name;
+    //nombre del producto
 
     @NotEmpty
     private String details;
+    //detalles del producto (material, talla, etc)
+
     @NotEmpty
     private double price;
+    //precio del producto
+
+    @NotEmpty
+    private boolean stock;
+    //flag para el estado del producto
 
     @ManyToOne
     private Company company;
+    /*
+    Relación, una compañia puede tener muchos
+    productos y un producto pertenece a una compañía.
+     */
 
     @ManyToMany(mappedBy = "product")
     private List<Order> orders;
+    /*
+    Relación, un pedido puede tener muchos
+    productos y un producto puede pertenecer a muchos pedidos.
+     */
 
     public Product(){
         this.id= UUID.randomUUID().toString();
@@ -73,4 +90,11 @@ public class Product {
         this.company = company;
     }
 
+    public boolean isStock() {
+        return stock;
+    }
+
+    public void setStock(boolean stock) {
+        this.stock = stock;
+    }
 }

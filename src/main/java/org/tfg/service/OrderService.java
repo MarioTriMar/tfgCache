@@ -25,18 +25,37 @@ public class OrderService {
     @Autowired
     private ProductDAO productDAO;
 
+    @Autowired
+    private ControlMethods controlMethods;
+
+    /*
+    Este método recibe por parámetros el id de la compañía, el id del cliente y
+    la lista de productos.
+    Primero crea un id y la fecha de creación. Después comprueba si existen y si están
+    activadas la compañia y el cliente.
+    Una vez hecho esto recorre la lista de productos comprobando si estos existen y si están
+    en stock.
+    Si cumple todas las condiciones llama al método makeOrder.
+     */
     public void saveOrder(String companyId, String customerId, List<String> products) {
         String id= UUID.randomUUID().toString();
         Timestamp creationTime=new Timestamp(System.currentTimeMillis());
-        Company company=existCompany(companyId);
-        Customer customer=existCustomer(customerId);
+        Company company=this.controlMethods.existCompany(companyId, true);
+        Customer customer=this.controlMethods.existCustomer(customerId, true);
         List<Product> productList=new ArrayList<>();
         for(int i=0;i<products.size();i++){
-            Product product=existProduct(products.get(i));
+            Product product=this.controlMethods.existProduct(products.get(i), true);
             productList.add(product);
         }
-        makeOrder(id, creationTime, company, customer, productList);
+        this.makeOrder(id, creationTime, company, customer, productList);
     }
+
+    /*
+    Este método recibe por parámetros el id del pedido, la fecha de creación, la compañía,
+    el cliente y la lista de productos.
+    Es llamado por el método anterior y su función es crear el objeto Order y guardarlo
+    en la BBDD.
+     */
     private void makeOrder(String id, Timestamp creationTime, Company company, Customer customer,
                           List<Product> productList){
         Order order=new Order();
@@ -50,10 +69,19 @@ public class OrderService {
         }
         this.orderDAO.save(order);
     }
+
+    /*
+    Este método devuelve una lista con todos los pedidos.
+     */
     public List<Order> getAll() {
         return this.orderDAO.findAll();
     }
 
+    /*
+    Este método recibe por parámetros el id de un pedido.
+    Su función es buscar en la BBDD el pedido y devolverlo.
+    En caso se no existir lanzará un 404.
+     */
     public Order findOrderById(String id) {
         Optional<Order> optOrder=this.orderDAO.findById(id);
         if(optOrder.isEmpty()){
@@ -61,36 +89,26 @@ public class OrderService {
         }
         return optOrder.get();
     }
+
+    /*
+    Este método recibe por parámetros el id de una compañía.
+    Primero comprobará si existe la compañía. Si es así devolverá la lista
+    de pedidos de una compañía.
+     */
     public List<Order> findByCompanyId(String companyId) {
-        Company company=existCompany(companyId);
+        Company company=this.controlMethods.existCompany(companyId, false);
         return this.orderDAO.findByCompany(company);
     }
 
+    /*
+    Este método recibe por parámetros el id de un cliente.
+    Primero comprobará si existe el cliente. Si es así devolverá la lista
+    de pedidos de un cliente.
+     */
     public List<Order> findByCustomerId(String customerId) {
-        Customer customer=existCustomer(customerId);
+        Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);
     }
 
-    private Company existCompany(String companyId){
-        Optional<Company> optCompany=this.companyDAO.findById(companyId);
-        if(optCompany.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
-        }
-        return optCompany.get();
-    }
-    private Customer existCustomer(String customerId){
-        Optional<Customer> optCustomer=this.customerDAO.findById(customerId);
-        if(optCustomer.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer doesn't exist");
-        }
-        return optCustomer.get();
-    }
-    private Product existProduct(String productId){
-        Optional<Product> optionalProduct=this.productDAO.findById(productId);
-        if(optionalProduct.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product doesn't exist");
-        }
-        return optionalProduct.get();
-    }
 
 }

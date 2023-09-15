@@ -4,18 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="Products">
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="ManyToMany solved, methods refactores">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Company.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Company.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Customer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Product.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/repository/OrderDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/repository/OrderDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/repository/ProductDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/repository/ProductDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderSevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +27,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -57,7 +58,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -70,20 +71,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "noCache",
-    "last_opened_file_path": "C:/Users/mtrivino/IdeaProjects/tfgCache - copia",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settings.ide.settings.file-colors"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;noCache&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mtrivino/IdeaProjects/tfgCache - copia&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.file-colors&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.tfg.service" />
@@ -164,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1694609676479</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ManyToMany solved, methods refactores">
+      <option name="closed" value="true" />
+      <created>1694695314137</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1694695314137</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -197,30 +206,41 @@
     <MESSAGE value="FindByIds" />
     <MESSAGE value="properties" />
     <MESSAGE value="Products" />
-    <option name="LAST_COMMIT_MESSAGE" value="Products" />
+    <MESSAGE value="ManyToMany solved, methods refactores" />
+    <option name="LAST_COMMIT_MESSAGE" value="ManyToMany solved, methods refactores" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java</url>
-          <line>30</line>
+          <line>42</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java</url>
-          <line>64</line>
+          <line>98</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java</url>
-          <line>23</line>
+          <line>32</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java</url>
-          <line>33</line>
+          <line>48</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
+          <line>81</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java</url>
+          <line>71</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
