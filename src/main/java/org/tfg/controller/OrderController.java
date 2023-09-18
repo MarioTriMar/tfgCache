@@ -82,14 +82,5 @@ public class OrderController {
         logger.info("GETTING ALL CUSTOMER ORDERS BY ID: "+customerId);
         return this.orderService.findByCustomerId(customerId);
     }
-    /*
-    @GetMapping("/duplicate")
-    public void duplicate(){
-        List<Order> pedidos=this.orderService.getAll();
-        for(int i=0;i<pedidos.size();i++){
-            this.orderService.saveOrder(pedidos.get(i).getCompany().getId(), pedidos.get(i).getCustomer().getId(), pedidos.get(i).getPrice()+43.00);
-        }
-    }
-    */
 
 }
