@@ -5,6 +5,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.0.1</version>
+
   </parent>
   <groupId>org.tfg</groupId>
   <artifactId>tfgCache</artifactId>
@@ -53,4 +54,12 @@
       <version>2.0.1.Final</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
