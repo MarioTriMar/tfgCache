@@ -128,5 +128,4 @@ public class OrderService {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);
     }
-
 }

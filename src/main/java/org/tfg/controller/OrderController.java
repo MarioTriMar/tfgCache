@@ -82,5 +82,4 @@ public class OrderController {
         logger.info("GETTING ALL CUSTOMER ORDERS BY ID: "+customerId);
         return this.orderService.findByCustomerId(customerId);
     }
-
 }
