@@ -1,14 +1,17 @@
 package org.tfg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import org.springframework.web.server.ResponseStatusException;
 import org.tfg.model.Company;
 import org.tfg.model.Product;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -72,5 +75,18 @@ public class ProductService {
         Product product=this.controlMethods.existProduct(productId, false);
         product.setStock(!product.isStock());
         this.productDAO.save(product);
+    }
+
+    /*
+    Este método recibe por parámetro el id del producto.
+    Busca dicho producto en la BBDD, en caso de no estar lanza un 404.
+    Si lo encuentra lo devuelve.
+     */
+    public Product getProductById(String id) {
+        Optional<Product> optProduct=this.productDAO.findById(id);
+        if(optProduct.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product doesn't exist");
+        }
+        return optProduct.get();
     }
 }

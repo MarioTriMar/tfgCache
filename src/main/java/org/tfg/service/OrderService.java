@@ -124,9 +124,9 @@ public class OrderService {
     Primero comprobará si existe el cliente. Si es así devolverá la lista
     de pedidos de un cliente.
      */
+
     public List<Order> findByCustomerId(String customerId) {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);
     }
-
 }
