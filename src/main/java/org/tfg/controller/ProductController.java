@@ -45,6 +45,15 @@ public class ProductController {
     }
 
     /*
+    Este método es llamado mediante petición GET y se le pasa como PathVariable
+    el id de un producto. Su función es llamar al ProductService y devolver dicho producto.
+     */
+    @GetMapping("/getProductById/{id}")
+    public Product getProductById(@PathVariable String id){
+        return this.productService.getProductById(id);
+    }
+
+    /*
     Este método es llamado mediante petición PUT. Toma como entrada un MAP
     con la siguiente estructura: {
                                     "id": string,

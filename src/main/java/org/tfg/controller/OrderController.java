@@ -80,6 +80,8 @@ public class OrderController {
     @GetMapping("/getOrdersOfCustomer/{customerId}")
     public List<Order> getOrdersOfCustomer(@PathVariable String customerId){
         logger.info("GETTING ALL CUSTOMER ORDERS BY ID: "+customerId);
+        logger.warn("Warning");
+        logger.error("Error");
         return this.orderService.findByCustomerId(customerId);
     }
 }
