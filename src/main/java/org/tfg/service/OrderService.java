@@ -1,6 +1,9 @@
 package org.tfg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,6 +42,12 @@ public class OrderService {
     compañía.
     Si cumple todas las condiciones llama al método makeOrder.
      */
+    @Caching(evict={
+            @CacheEvict(cacheNames = "companiesOrders", key="#companyId"),
+            @CacheEvict(cacheNames = "customersOrders", key="#customerId"),
+            @CacheEvict(cacheNames = "orders", allEntries = true),
+            @CacheEvict(cacheNames = "order", allEntries = true)
+    })
     public void saveOrder(String companyId, String customerId, List<String> products) {
         String id= UUID.randomUUID().toString();
         Timestamp creationTime=new Timestamp(System.currentTimeMillis());
@@ -49,24 +58,10 @@ public class OrderService {
             Product product=this.controlMethods.existProduct(products.get(i), true);
             productList.add(product);
         }
-        if(!belongsProductToCompany(companyId, productList)){
+        if(!this.controlMethods.belongsProductToCompany(companyId, productList)){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Products doesn't belong to the company");
         }
         this.makeOrder(id, creationTime, company, customer, productList);
-    }
-
-    /*
-    Este método recibe por parámetros el id de la compañía y la lista de productos
-    del pedido. Comprueba si esos pedidos pertenecen a la compaía a la que se quiere hacer
-    el pedido.
-     */
-    private boolean belongsProductToCompany(String companyId, List<Product> productList) {
-        List<Product> companyProduct=this.productDAO.findByCompanyId(companyId);
-        if(companyProduct.containsAll(productList)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     /*
@@ -92,6 +87,7 @@ public class OrderService {
     /*
     Este método devuelve una lista con todos los pedidos.
      */
+    @Cacheable(cacheNames = "orders", key = "'allOrders'")
     public List<Order> getAll() {
         return this.orderDAO.findAll();
     }
@@ -101,6 +97,7 @@ public class OrderService {
     Su función es buscar en la BBDD el pedido y devolverlo.
     En caso se no existir lanzará un 404.
      */
+    @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
     public Order findOrderById(String id) {
         Optional<Order> optOrder=this.orderDAO.findById(id);
         if(optOrder.isEmpty()){
@@ -114,6 +111,7 @@ public class OrderService {
     Primero comprobará si existe la compañía. Si es así devolverá la lista
     de pedidos de una compañía.
      */
+    @Cacheable(cacheNames = "companiesOrders", key="#companyId", condition = "#companyId!=null")
     public List<Order> findByCompanyId(String companyId) {
         Company company=this.controlMethods.existCompany(companyId, false);
         return this.orderDAO.findByCompany(company);
@@ -124,7 +122,7 @@ public class OrderService {
     Primero comprobará si existe el cliente. Si es así devolverá la lista
     de pedidos de un cliente.
      */
-
+    @Cacheable(cacheNames="customersOrders", key="#customerId", condition = "#customerId!=null")
     public List<Order> findByCustomerId(String customerId) {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);

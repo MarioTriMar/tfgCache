@@ -1,6 +1,10 @@
 package org.tfg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +27,7 @@ public class CustomerService {
     Crea el objeto Customer y le asigna el nombre, el email y que está activo.
     Guarda el cliente en la BBDD.
      */
+    @CacheEvict(cacheNames = "customers", allEntries = true)
     public void save(String name, String email){
         Customer customer=new Customer();
         customer.setName(name);
@@ -36,6 +41,7 @@ public class CustomerService {
     Busca dicho cliente en la BBDD, en caso de no estar lanza un 404.
     Si encuentra al usuario lo devuelve.
      */
+    @Cacheable(cacheNames = "customer", key="#id", condition = "#id!=null")
     public Customer findCustomerById(String id) {
         Optional<Customer> optCustomer=this.customerDAO.findById(id);
         if(optCustomer.isEmpty()){
@@ -47,14 +53,23 @@ public class CustomerService {
     /*
     Este método devuelve la lista de clientes.
      */
+    @Cacheable(cacheNames = "customers")
     public List<Customer> getAll(){ return this.customerDAO.findAll(); }
 
     /*
     Este método recibe por parametro un cliente.
     Su función es actualizar el cliente.
      */
-    public void update(Customer customer) {
-        this.customerDAO.save(customer);
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "orders", allEntries = true),
+            @CacheEvict(cacheNames = "companiesOrders", allEntries = true),
+            @CacheEvict(cacheNames = "customersOrders", key = "#customer.id"),
+            @CacheEvict(cacheNames = "order", allEntries = true),
+            @CacheEvict(cacheNames = "customers", allEntries = true)
+    })
+    @CachePut(cacheNames = "customer", key = "#customer.id", condition = "#customer.id!=null")
+    public Customer update(Customer customer) {
+        return this.customerDAO.save(customer);
     }
 
     /*
@@ -64,9 +79,17 @@ public class CustomerService {
     método existCustomer de la clase ControlMethods), cambiará el estado si
     este existe y lo guardará.
      */
-    public void changeState(String customerId) {
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "orders", allEntries = true),
+            @CacheEvict(cacheNames = "companiesOrders", allEntries = true),
+            @CacheEvict(cacheNames = "customersOrders", key = "#customerId"),
+            @CacheEvict(cacheNames = "order", allEntries = true),
+            @CacheEvict(cacheNames = "customers", allEntries = true)
+    })
+    @CachePut(cacheNames = "customer", key = "#customerId", condition = "#customerId!=null")
+    public Customer changeState(String customerId) {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         customer.setEnabled(!customer.isEnabled());
-        this.customerDAO.save(customer);
+        return this.customerDAO.save(customer);
     }
 }

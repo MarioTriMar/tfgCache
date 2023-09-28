@@ -2,6 +2,10 @@ package org.tfg.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +36,8 @@ public class CompanyService {
     Crea el objeto Company y le asigna el nombre, el cif, el email y que está activa.
     Guarda la compañía en la BBDD.
      */
+
+    @CacheEvict(cacheNames="companies", allEntries = true)
     public void save(String name, String cif, String contactEmail){
         Company company=new Company();
         company.setName(name);
@@ -46,7 +52,7 @@ public class CompanyService {
     Busca dicha compañía en la BBDD, en caso de no estar lanza un 404.
     Si la encuentra la devuelve.
      */
-
+    @Cacheable(cacheNames = "company", key="#id", condition = "#id!=null")
     public Company findCompanyById(String id) {
         Optional<Company> optCompany=this.companyDAO.findById(id);
         if(optCompany.isEmpty()){
@@ -58,6 +64,7 @@ public class CompanyService {
     /*
     Este método devuelve la lista de compañías.
      */
+    @Cacheable(cacheNames = "companies")
     public List<Company> getAll(){
         return this.companyDAO.findAll();
     }
@@ -66,10 +73,20 @@ public class CompanyService {
     Este método recibe por parametro una compañía.
     Su función es actualizarla.
      */
-    public void update(Company company) {
-        this.companyDAO.save(company);
+    @Caching(evict={
+            @CacheEvict(cacheNames="companies", allEntries = true),
+            @CacheEvict(cacheNames="products", key="#company.id"),
+            @CacheEvict(cacheNames="orders", allEntries = true),
+            @CacheEvict(cacheNames="order", allEntries = true),
+            @CacheEvict(cacheNames="companiesOrders", key = "#company.id"),
+            @CacheEvict(cacheNames = "customersOrders", allEntries = true),
+            @CacheEvict(cacheNames="products", key="'allProducts'"),
+            @CacheEvict(cacheNames = "product", allEntries = true)
+    })
+    @CachePut(cacheNames="company", key="#company.id", condition = "#company.id!=null")
+    public Company update(Company company) {
+        return this.companyDAO.save(company);
     }
-
 
     /*
     Este método recibe por parámetros el id de una compañía.
@@ -77,6 +94,7 @@ public class CompanyService {
     Primero comprobará la existencia de dicha compañía (llamando al método
     existCompany de la clase ControlMethods).
      */
+    @Cacheable(cacheNames = "products", key="#id", condition = "#id!=null")
     public List<Product> findCompanyProducts(String id) {
         Company company=this.controlMethods.existCompany(id, false);
         return this.productDAO.findByCompanyId(company.getId());
@@ -87,9 +105,20 @@ public class CompanyService {
     Su función es cambiar el estado en el que esta se encuentra.
     Primero comprobará la existencia de esta.
      */
-    public void changeState(String companyId) {
+    @Caching(evict={
+            @CacheEvict(cacheNames="companies", allEntries = true),
+            @CacheEvict(cacheNames="products", key="#companyId"),
+            @CacheEvict(cacheNames="orders", allEntries = true),
+            @CacheEvict(cacheNames="order", allEntries = true),
+            @CacheEvict(cacheNames="companiesOrders", key = "#companyId"),
+            @CacheEvict(cacheNames = "customersOrders", allEntries = true),
+            @CacheEvict(cacheNames="products", key="'allProducts'"),
+            @CacheEvict(cacheNames = "product", allEntries = true)
+    })
+    @CachePut(cacheNames="company", key="#companyId", condition = "#companyId!=null")
+    public Company changeState(String companyId) {
         Company company=this.controlMethods.existCompany(companyId, false);
         company.setEnabled(!company.isEnabled());
-        this.companyDAO.save(company);
+        return this.companyDAO.save(company);
     }
 }

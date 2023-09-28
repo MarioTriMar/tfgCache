@@ -66,7 +66,7 @@ public class ProductController {
     Esto se lo pasa al ProductService para actualizar dicho producto con los nuevos valores.
      */
     @PutMapping("/updateProduct")
-    public void updateProduct(@RequestBody Map<String,Object> product){
+    public Product updateProduct(@RequestBody Map<String,Object> product){
         logger.info("UPDATING PRODUCT: "+product.toString());
 
         String id=product.get("id").toString();
@@ -75,7 +75,7 @@ public class ProductController {
         double price=(double)product.get("price");
         boolean stock=(boolean) product.get("stock");
         String companyId=product.get("company").toString();
-        this.productService.updateProduct(id,name,details,price,stock,companyId);
+        return this.productService.updateProduct(id,name,details,price,stock,companyId);
     }
 
     /*
@@ -92,9 +92,9 @@ public class ProductController {
     Este método es llamado mediante una petición PUT. Se le pasa como PathVariable
     el id del producto y llama al ProductService para cambiar su stock.
      */
-    @PutMapping("/changeStock/{productId}")
-    public void changeStock(@PathVariable String productId){
+    @PutMapping("/changeStock/{productId}/{companyId}")
+    public Product changeStock(@PathVariable String productId, @PathVariable String companyId){
         logger.info("CHANGING STOCK OF PRODUCT: "+productId);
-        this.productService.changeStock(productId);
+        return this.productService.changeStock(productId, companyId);
     }
 }
