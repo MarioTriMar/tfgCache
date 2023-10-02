@@ -50,10 +50,6 @@ public class CompanyController {
         this.companyService.save(name, cif, contactEmail);
     }
 
-    /*
-    Este método es llamado mediante petición GET y se le pasa como PathVariable
-    el id de una compañía. Su función es llamar al CompanyService y devolver dicha compañía.
-     */
     @GetMapping("/getCompanyById/{id}")
     public Company getCompanyById(@PathVariable String id){
         logger.info("GETTING COMPANY BY ID: "+id);

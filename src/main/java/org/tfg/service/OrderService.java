@@ -22,13 +22,6 @@ public class OrderService {
     @Autowired
     private OrderDAO orderDAO;
     @Autowired
-    private CompanyDAO companyDAO;
-    @Autowired
-    private CustomerDAO customerDAO;
-    @Autowired
-    private ProductDAO productDAO;
-
-    @Autowired
     private ControlMethods controlMethods;
 
     /*

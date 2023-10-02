@@ -24,7 +24,6 @@ public class CompanyService {
     private CompanyDAO companyDAO;
     @Autowired
     private ProductDAO productDAO;
-
     @Autowired
     private ControlMethods controlMethods;
 

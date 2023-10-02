@@ -9,19 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="properties">
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="spring cache">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheEntries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheEntries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CacheController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CacheController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/ControlMethods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/ControlMethods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1695807659131</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="spring cache">
+      <option name="closed" value="true" />
+      <created>1695896883220</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1695896883220</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -276,25 +279,21 @@
     <MESSAGE value="docker + mysql docker properties" />
     <MESSAGE value="properties + postgresql" />
     <MESSAGE value="properties" />
-    <option name="LAST_COMMIT_MESSAGE" value="properties" />
+    <MESSAGE value="spring cache" />
+    <option name="LAST_COMMIT_MESSAGE" value="spring cache" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
-          <line>98</line>
+          <line>97</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
-          <line>119</line>
+          <line>118</line>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
-          <line>56</line>
-          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java</url>

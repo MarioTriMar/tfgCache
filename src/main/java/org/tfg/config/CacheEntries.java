@@ -16,6 +16,10 @@ public class CacheEntries {
     @Autowired
     private CacheManager cacheManager;
 
+    /*
+    Este método recibe por parámetros el nombre de una de las cachés. Su función es
+    devolver un Map con todos los datós de dicha caché.
+     */
     public Map<Object, Object> getAllEntriesInProductCache(String cacheName) {
         Cache productCache = cacheManager.getCache(cacheName);
         Map<Object, Object> cacheEntries;
