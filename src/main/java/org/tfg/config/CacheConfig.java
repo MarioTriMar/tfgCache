@@ -17,7 +17,7 @@ public class CacheConfig {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
         cacheManager.setCacheNames(List.of("order","orders", "customer", "customers",
                 "company", "companies", "companiesOrders", "customersOrders",
-                "product", "products"));
+                "product", "products", "money"));
         return cacheManager;
     }
 }

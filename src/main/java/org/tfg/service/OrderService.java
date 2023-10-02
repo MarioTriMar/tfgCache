@@ -39,7 +39,8 @@ public class OrderService {
             @CacheEvict(cacheNames = "companiesOrders", key="#companyId"),
             @CacheEvict(cacheNames = "customersOrders", key="#customerId"),
             @CacheEvict(cacheNames = "orders", allEntries = true),
-            @CacheEvict(cacheNames = "order", allEntries = true)
+            @CacheEvict(cacheNames = "order", allEntries = true),
+            @CacheEvict(cacheNames = "money", key="#customerId")
     })
     public void saveOrder(String companyId, String customerId, List<String> products) {
         String id= UUID.randomUUID().toString();
@@ -119,5 +120,20 @@ public class OrderService {
     public List<Order> findByCustomerId(String customerId) {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);
+    }
+
+    /*
+    Este método recibe por parámetros el id de un cliente.
+    Primero comprobará si existe el cliente. Si es así devolverá la lista
+    de pedidos de un cliente y calculará el dinero gastado por el cliente.
+     */
+    @Cacheable(cacheNames="money", key="#customerId", condition = "#customerId!=null")
+    public double getTotalMoney(String customerId) {
+        List<Order> orders=this.findByCustomerId(customerId);
+        double total=0;
+        for (Order order : orders) {
+            total += order.getPrice();
+        }
+        return total;
     }
 }
