@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.UUID;
                 @Index(columnList = "cif", unique = true)
         }
 )
-public class Company {
+public class Company implements Serializable {
     @Id @Column(length=36)
     private String id;
     //id de la compañía, se genera la llamar al constructor

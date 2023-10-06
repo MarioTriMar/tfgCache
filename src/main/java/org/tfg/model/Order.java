@@ -3,6 +3,7 @@ package org.tfg.model;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.*;
 import java.sql.Timestamp;
 
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
 @Table(
         name="orders"
 )
-public class Order {
+public class Order implements Serializable {
     @Id
     @Column(length=36)
     private String id;

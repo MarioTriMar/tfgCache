@@ -3,6 +3,7 @@ package org.tfg.model;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 @Table(
         name="products"
 )
-public class Product {
+public class Product implements Serializable {
     @Id
     @Column(length=36)
     private String id;

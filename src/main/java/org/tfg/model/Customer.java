@@ -3,6 +3,7 @@ package org.tfg.model;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.UUID;
                 @Index(columnList = "email", unique = true)
         }
 )
-public class Customer {
+public class Customer implements Serializable {
     @Id
     @Column(length=36)
     private String id;
