@@ -3,7 +3,7 @@ package org.tfg.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.tfg.config.CacheEntries;
-import org.tfg.model.Company;
+
 
 import java.util.Map;
 
