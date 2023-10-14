@@ -10,6 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="redis">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -317,11 +320,6 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
           <line>119</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
@@ -329,6 +327,16 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java</url>
           <line>96</line>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/config/CacheEntries.java</url>
+          <line>22</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

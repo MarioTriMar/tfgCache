@@ -2,6 +2,7 @@ package org.tfg.config;
 
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +13,15 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.cache.interceptor.CacheErrorHandler;
+
 
 import java.time.Duration;
 
 
 @Configuration
 @EnableCaching
-public class CacheConfig {
+public class CacheConfig extends CachingConfigurerSupport {
 
     @Bean
     public LettuceConnectionFactory connectionFactory(){
@@ -70,4 +73,8 @@ public class CacheConfig {
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(2)));
     }
 
+    @Override
+    public CacheErrorHandler errorHandler() {
+        return new CustomCacheErrorHandler();
+    }
 }

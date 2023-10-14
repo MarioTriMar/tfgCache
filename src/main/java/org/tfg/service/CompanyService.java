@@ -92,7 +92,7 @@ public class CompanyService {
     Primero comprobará la existencia de dicha compañía (llamando al método
     existCompany de la clase ControlMethods).
      */
-    @Cacheable(cacheNames = "products", key="#id", condition = "#id!=null")
+    @Cacheable(cacheNames = "products", key="#id", condition = "#id!=null", unless="#result == null")
     public List<Product> findCompanyProducts(String id) {
         Company company=this.controlMethods.existCompany(id, false);
         return this.productDAO.findByCompanyId(company.getId());
