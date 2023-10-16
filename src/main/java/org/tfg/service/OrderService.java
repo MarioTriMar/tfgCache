@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,7 +22,8 @@ public class OrderService {
     private OrderDAO orderDAO;
     @Autowired
     private ControlMethods controlMethods;
-
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
     /*
     Este método recibe por parámetros el id de la compañía, el id del cliente y
     la lista de productos.
@@ -127,11 +129,19 @@ public class OrderService {
      */
     @Cacheable(cacheNames="money", key="#customerId", condition = "#customerId!=null")
     public double getTotalMoney(String customerId) {
-        List<Order> orders=this.findByCustomerId(customerId);
+        String key="money::"+customerId;
+        String money = (String) redisTemplate.opsForValue().get(key);
         double total=0;
-        for (Order order : orders) {
-            total += order.getPrice();
+        if(money==null){
+            List<Order> orders=this.findByCustomerId(customerId);
+            for (Order order : orders) {
+                total += order.getPrice();
+            }
+            redisTemplate.opsForValue().set(key, total);
+        }else{
+            total=Double.parseDouble(money);
         }
+
         return total;
     }
 }

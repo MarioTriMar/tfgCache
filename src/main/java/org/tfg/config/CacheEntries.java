@@ -1,5 +1,6 @@
 package org.tfg.config;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
@@ -13,12 +14,13 @@ import java.util.Map;
 public class CacheEntries {
 
     @Autowired
+    @Qualifier("localCacheManager")
     private CacheManager cacheManager;
 
     /*
     Este método recibe por parámetros el nombre de una de las cachés. Su función es
     devolver un Map con todos los datós de dicha caché.
-     */
+    */
     public Map<Object, Object> getAllEntriesInProductCache(String cacheName) {
         Cache productCache = cacheManager.getCache(cacheName);
         Map<Object, Object> cacheEntries;
@@ -29,5 +31,6 @@ public class CacheEntries {
         }
         return cacheEntries;
     }
+
 }
 

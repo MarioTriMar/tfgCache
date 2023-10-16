@@ -1,10 +1,12 @@
 package org.tfg.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,7 +14,12 @@ import org.tfg.model.Company;
 import org.tfg.model.Product;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +33,8 @@ public class CompanyService {
     @Autowired
     private ControlMethods controlMethods;
 
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
 
 
     /*
@@ -62,7 +71,7 @@ public class CompanyService {
     /*
     Este método devuelve la lista de compañías.
      */
-    @Cacheable(cacheNames = "companies")
+    @Cacheable(cacheNames = "companiesRedis", cacheManager = "redisCacheManager")
     public List<Company> getAll(){
         return this.companyDAO.findAll();
     }
@@ -93,9 +102,21 @@ public class CompanyService {
     existCompany de la clase ControlMethods).
      */
     @Cacheable(cacheNames = "products", key="#id", condition = "#id!=null", unless="#result == null")
-    public List<Product> findCompanyProducts(String id) {
-        Company company=this.controlMethods.existCompany(id, false);
-        return this.productDAO.findByCompanyId(company.getId());
+    public List<Product> findCompanyProducts(String id) throws JsonProcessingException {
+        String key="products::"+id;
+        List<Product> products= new ArrayList<>();
+        String productsRedis= (String) redisTemplate.opsForValue().get(key);
+        ObjectMapper objectMapper=new ObjectMapper();
+        if(productsRedis==null){
+            Company company=this.controlMethods.existCompany(id, false);
+            products= productDAO.findByCompanyId(company.getId());
+            String productListJson = objectMapper.writeValueAsString(products);
+            redisTemplate.opsForValue().set(key, productListJson);
+        }else{
+            return objectMapper.readValue(productsRedis, new TypeReference<List<Product>>() {});
+        }
+        return products;
+
     }
 
     /*

@@ -1,5 +1,6 @@
 package org.tfg.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class CompanyController {
     los productos de dicha compañía.
      */
     @GetMapping("/getCompanyProducts/{id}")
-    public List<Product> getCompanyProducts(@PathVariable String id){
+    public List<Product> getCompanyProducts(@PathVariable String id) throws JsonProcessingException {
         logger.info("GETTING COMPANY PRODUCTS BY ID: "+id);
         return this.companyService.findCompanyProducts(id);
     }

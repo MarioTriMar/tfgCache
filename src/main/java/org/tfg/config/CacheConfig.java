@@ -2,12 +2,16 @@ package org.tfg.config;
 
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,12 +21,20 @@ import org.springframework.cache.interceptor.CacheErrorHandler;
 
 
 import java.time.Duration;
+import java.util.List;
 
 
 @Configuration
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
 
+    @Bean
+    @Primary
+    public CacheManager localCacheManager() {
+        ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
+        cacheManager.setCacheNames(List.of("money","products", "companies"));
+        return cacheManager;
+    }
     @Bean
     public LettuceConnectionFactory connectionFactory(){
         RedisProperties properties = properties();
@@ -31,7 +43,16 @@ public class CacheConfig extends CachingConfigurerSupport {
         configuration.setPort(properties.getPort());
         return new LettuceConnectionFactory(configuration);
     }
-
+    @Bean
+    public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory)
+                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
+                .withCacheConfiguration("productsRedis", RedisCacheConfiguration.defaultCacheConfig())
+                .withCacheConfiguration("companiesRedis", RedisCacheConfiguration.defaultCacheConfig())
+                .withCacheConfiguration("moneyRedis", RedisCacheConfiguration.defaultCacheConfig())
+                .build();
+        return cacheManager;
+    }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(){
@@ -46,31 +67,6 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Primary
     public RedisProperties properties(){
         return new RedisProperties();
-    }
-
-    @Bean
-    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-        return (builder) -> builder
-                .withCacheConfiguration("companies",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
-                .withCacheConfiguration("company",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
-                .withCacheConfiguration("products",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
-                .withCacheConfiguration("product",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
-                .withCacheConfiguration("customer",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
-                .withCacheConfiguration("customers",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
-                .withCacheConfiguration("order",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)))
-                .withCacheConfiguration("customersOrders",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
-                .withCacheConfiguration("companiesOrders",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(5)))
-                .withCacheConfiguration("orders",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(2)));
     }
 
     @Override
