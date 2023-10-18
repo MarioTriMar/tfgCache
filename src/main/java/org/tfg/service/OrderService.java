@@ -129,4 +129,19 @@ public class OrderService {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);
     }
+
+    /*
+    Este método recibe por parámetros el id de un cliente.
+    Primero comprobará si existe el cliente. Si es así devolverá la lista
+    de pedidos de un cliente y calculará el dinero gastado por el cliente.
+    */
+
+    public double getTotalMoney(String customerId) {
+        List<Order> orders=this.findByCustomerId(customerId);
+        double total=0;
+        for (Order order : orders) {
+            total += order.getPrice();
+        }
+        return total;
+    }
 }
