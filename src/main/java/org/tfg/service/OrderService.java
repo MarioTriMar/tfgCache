@@ -57,16 +57,12 @@ public class OrderService {
 
     /*
     Este método recibe por parámetros el id de la compañía y la lista de productos
-    del pedido. Comprueba si esos pedidos pertenecen a la compaía a la que se quiere hacer
+    del pedido. Comprueba si esos pedidos pertenecen a la compañía a la que se quiere hacer
     el pedido.
      */
     private boolean belongsProductToCompany(String companyId, List<Product> productList) {
         List<Product> companyProduct=this.productDAO.findByCompanyId(companyId);
-        if(companyProduct.containsAll(productList)){
-            return true;
-        }else{
-            return false;
-        }
+        return (companyProduct.containsAll(productList));
     }
 
     /*
