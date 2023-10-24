@@ -15,9 +15,13 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.tfg.subscriber.Receiver;
 
 
 import java.time.Duration;
@@ -72,5 +76,23 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Override
     public CacheErrorHandler errorHandler() {
         return new CustomCacheErrorHandler();
+    }
+
+    @Bean
+    public ChannelTopic topic(){
+        return new ChannelTopic("pubsub:cache-channel");
+    }
+
+    @Bean
+    public MessageListenerAdapter messageListenerAdapter(){
+        return new MessageListenerAdapter(new Receiver());
+    }
+
+    @Bean
+    public RedisMessageListenerContainer redisMessageListenerContainer(){
+        RedisMessageListenerContainer container=new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory());
+        container.addMessageListener(messageListenerAdapter(),topic());
+        return container;
     }
 }

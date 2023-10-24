@@ -9,14 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="redis fix">
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="tests unitarios">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheEntries.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheEntries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CacheController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CacheController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cacheRedis" />
+        <entry key="$PROJECT_DIR$" value="noCache" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -332,7 +329,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
-          <line>140</line>
+          <line>150</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -352,7 +349,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
-          <line>115</line>
+          <line>125</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -360,7 +357,17 @@
           <line>131</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/tfgCache$TfgCacheApplicationTest.ic" NAME="TfgCacheApplicationTest Coverage Results" MODIFIED="1697727909034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.tfg.*</FILTER>
+    </SUITE>
   </component>
 </project>
