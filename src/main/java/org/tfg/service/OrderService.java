@@ -57,16 +57,12 @@ public class OrderService {
 
     /*
     Este método recibe por parámetros el id de la compañía y la lista de productos
-    del pedido. Comprueba si esos pedidos pertenecen a la compaía a la que se quiere hacer
+    del pedido. Comprueba si esos pedidos pertenecen a la compañía a la que se quiere hacer
     el pedido.
      */
     private boolean belongsProductToCompany(String companyId, List<Product> productList) {
         List<Product> companyProduct=this.productDAO.findByCompanyId(companyId);
-        if(companyProduct.containsAll(productList)){
-            return true;
-        }else{
-            return false;
-        }
+        return (companyProduct.containsAll(productList));
     }
 
     /*
@@ -128,5 +124,20 @@ public class OrderService {
     public List<Order> findByCustomerId(String customerId) {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderDAO.findByCustomer(customer);
+    }
+
+    /*
+    Este método recibe por parámetros el id de un cliente.
+    Primero comprobará si existe el cliente. Si es así devolverá la lista
+    de pedidos de un cliente y calculará el dinero gastado por el cliente.
+    */
+
+    public double getTotalMoney(String customerId) {
+        List<Order> orders=this.findByCustomerId(customerId);
+        double total=0;
+        for (Order order : orders) {
+            total += order.getPrice();
+        }
+        return total;
     }
 }
