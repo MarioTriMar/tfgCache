@@ -33,7 +33,7 @@ public class CustomerController {
     al CustomerService para registrarlo y guardarlo.
      */
     @PostMapping("/register")
-    public void saveCompany(@RequestBody Map<String, Object> info){
+    public void saveCustomer(@RequestBody Map<String, Object> info){
         logger.info("SAVING CUSTOMER: "+info.toString());
         Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 
