@@ -1,10 +1,15 @@
 package org.tfg.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +29,14 @@ public class OrderService {
     private ControlMethods controlMethods;
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
+    @Autowired
+    private ChannelTopic topic;
+
+    @Value("${server.port}")
+    private int port;
+
+    private final ObjectMapper objectMapper=new ObjectMapper();
+
     /*
     Este método recibe por parámetros el id de la compañía, el id del cliente y
     la lista de productos.
@@ -42,7 +55,7 @@ public class OrderService {
             @CacheEvict(cacheNames = "order", allEntries = true),
             @CacheEvict(cacheNames = "money", key="#customerId")
     })
-    public void saveOrder(String companyId, String customerId, List<String> products) {
+    public void saveOrder(String companyId, String customerId, List<String> products) throws JsonProcessingException {
         String id= UUID.randomUUID().toString();
         Timestamp creationTime=new Timestamp(System.currentTimeMillis());
         Company company=this.controlMethods.existCompany(companyId, true);
@@ -75,15 +88,36 @@ public class OrderService {
         for(int i=0;i<order.getProduct().size();i++){
             order.setPrice(order.getPrice()+order.getProduct().get(i).getPrice());
         }
+        this.cleanCache(company.getId(), customer.getId());
         this.orderDAO.save(order);
+    }
+
+    private void cleanCache(String companyId, String customerId) {
+        redisTemplate.delete("companiesOrders::"+companyId);
+        redisTemplate.delete("customersOrders::"+customerId);
+        redisTemplate.delete("orders");
+        redisTemplate.delete("order");
+        redisTemplate.delete("money::"+customerId);
+
+        String message=port+"/saveOrder/"+companyId+"/"+customerId;
+        redisTemplate.convertAndSend(topic.getTopic(),message);
     }
 
     /*
     Este método devuelve una lista con todos los pedidos.
      */
     @Cacheable(cacheNames = "orders", key = "'allOrders'")
-    public List<Order> getAll() {
-        return this.orderDAO.findAll();
+    public List<Order> getAll() throws JsonProcessingException {
+        String key="orders";
+        String ordersRedis=(String)redisTemplate.opsForValue().get(key);
+        if(ordersRedis==null){
+            List<Order> orders=this.orderDAO.findAll();
+            String ordersListJson=objectMapper.writeValueAsString(orders);
+            redisTemplate.opsForValue().set(key,ordersListJson);
+            return orders;
+        }else{
+            return objectMapper.readValue(ordersRedis, new TypeReference<List<Order>>() {});
+        }
     }
 
     /*
@@ -92,12 +126,21 @@ public class OrderService {
     En caso se no existir lanzará un 404.
      */
     @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
-    public Order findOrderById(String id) {
-        Optional<Order> optOrder=this.orderDAO.findById(id);
-        if(optOrder.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order doesn't exist");
+    public Order findOrderById(String id) throws JsonProcessingException {
+        String key="order::"+id;
+        String orderRedis=(String)redisTemplate.opsForValue().get(key);
+        if(orderRedis==null){
+            Optional<Order> optOrder=this.orderDAO.findById(id);
+            if(optOrder.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order doesn't exist");
+            }
+            String orderJson=objectMapper.writeValueAsString(optOrder.get());
+            redisTemplate.opsForValue().set(key,orderJson);
+            return optOrder.get();
+        }else{
+            return objectMapper.readValue(orderRedis, new TypeReference<Order>(){});
         }
-        return optOrder.get();
+
     }
 
     /*
@@ -106,9 +149,19 @@ public class OrderService {
     de pedidos de una compañía.
      */
     @Cacheable(cacheNames = "companiesOrders", key="#companyId", condition = "#companyId!=null")
-    public List<Order> findByCompanyId(String companyId) {
-        Company company=this.controlMethods.existCompany(companyId, false);
-        return this.orderDAO.findByCompany(company);
+    public List<Order> findByCompanyId(String companyId) throws JsonProcessingException {
+        String key="companiesOrders::"+companyId;
+        String ordersRedis=(String) redisTemplate.opsForValue().get(key);
+        if(ordersRedis==null){
+            Company company=this.controlMethods.existCompany(companyId, false);
+            List<Order> orders= this.orderDAO.findByCompany(company);
+            String ordersListJson=objectMapper.writeValueAsString(orders);
+            redisTemplate.opsForValue().set(key,ordersListJson);
+            return orders;
+        }else{
+            return objectMapper.readValue(ordersRedis, new TypeReference<List<Order>>(){});
+        }
+
     }
 
     /*
@@ -117,9 +170,18 @@ public class OrderService {
     de pedidos de un cliente.
      */
     @Cacheable(cacheNames="customersOrders", key="#customerId", condition = "#customerId!=null")
-    public List<Order> findByCustomerId(String customerId) {
-        Customer customer=this.controlMethods.existCustomer(customerId, false);
-        return this.orderDAO.findByCustomer(customer);
+    public List<Order> findByCustomerId(String customerId) throws JsonProcessingException {
+        String key="customersOrders::"+customerId;
+        String ordersRedis=(String) redisTemplate.opsForValue().get(key);
+        if(ordersRedis==null){
+            Customer customer=this.controlMethods.existCustomer(customerId, false);
+            List<Order> orders= this.orderDAO.findByCustomer(customer);
+            String ordersListJson=objectMapper.writeValueAsString(orders);
+            redisTemplate.opsForValue().set(key,ordersListJson);
+            return orders;
+        }else{
+            return objectMapper.readValue(ordersRedis, new TypeReference<List<Order>>(){});
+        }
     }
 
     /*
@@ -128,7 +190,7 @@ public class OrderService {
     de pedidos de un cliente y calculará el dinero gastado por el cliente.
      */
     @Cacheable(cacheNames="money", key="#customerId", condition = "#customerId!=null")
-    public double getTotalMoney(String customerId) {
+    public double getTotalMoney(String customerId) throws JsonProcessingException {
         String key="money::"+customerId;
         String money = (String) redisTemplate.opsForValue().get(key);
         double total=0;

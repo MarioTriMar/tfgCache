@@ -24,7 +24,6 @@ import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.tfg.subscriber.Receiver;
 
 
-import java.time.Duration;
 import java.util.List;
 
 
@@ -36,7 +35,8 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Primary
     public CacheManager localCacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
-        cacheManager.setCacheNames(List.of("money","products", "companies"));
+        cacheManager.setCacheNames(List.of("money","products", "companies", "customers", "customer",
+                "orders", "companiesOrders", "customersOrders", "order", "company", "product"));
         return cacheManager;
     }
     @Bean
@@ -49,13 +49,9 @@ public class CacheConfig extends CachingConfigurerSupport {
     }
     @Bean
     public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
-        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory)
+        return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("productsRedis", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("companiesRedis", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("moneyRedis", RedisCacheConfiguration.defaultCacheConfig())
                 .build();
-        return cacheManager;
     }
 
     @Bean

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.tfg.model.Company;
+import org.tfg.model.Customer;
 import org.tfg.model.Product;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +46,7 @@ public class CompanyService {
     @Value("${server.port}")
     private int port;
 
+    private final ObjectMapper objectMapper=new ObjectMapper();
 
     /*
     Este método recibe por parametros el nombre, el cif y el email de contacto
@@ -59,6 +62,9 @@ public class CompanyService {
         company.setCif(cif);
         company.setContactEmail(contactEmail);
         company.setEnabled(true);
+        redisTemplate.delete("companies");
+        String message=port+"/saveCompany";
+        redisTemplate.convertAndSend(topic.getTopic(), message);
         this.companyDAO.save(company);
     }
 
@@ -68,22 +74,38 @@ public class CompanyService {
     Si la encuentra la devuelve.
      */
     @Cacheable(cacheNames = "company", key="#id", condition = "#id!=null")
-    public Company findCompanyById(String id) {
-        Optional<Company> optCompany=this.companyDAO.findById(id);
-        if(optCompany.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
+    public Company findCompanyById(String id) throws JsonProcessingException {
+        String key="company::"+id;
+        String companyRedis=(String) redisTemplate.opsForValue().get(key);
+        if(companyRedis==null){
+            Optional<Company> optCompany=this.companyDAO.findById(id);
+            if(optCompany.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
+            }
+            String companyJson = objectMapper.writeValueAsString(optCompany.get());
+            redisTemplate.opsForValue().set(key,companyJson, Duration.ofMinutes(22220));
+            return optCompany.get();
+        }else{
+            return objectMapper.readValue(companyRedis, new TypeReference<Company>(){});
         }
-        return optCompany.get();
+
     }
 
     /*
     Este método devuelve la lista de compañías.
      */
-    @Cacheable(cacheNames = "companiesRedis", cacheManager = "redisCacheManager")
-    public List<Company> getAll(){
-        String message="Yepa/"+port;
-        redisTemplate.convertAndSend(topic.getTopic(), message);
-        return this.companyDAO.findAll();
+    @Cacheable(cacheNames = "companies")
+    public List<Company> getAll() throws JsonProcessingException {
+        String key="companies";
+        String companiesRedis=(String)redisTemplate.opsForValue().get(key);
+        if(companiesRedis==null){
+            List<Company> companies=this.companyDAO.findAll();
+            String companiesListJson=objectMapper.writeValueAsString(companies);
+            redisTemplate.opsForValue().set(key,companiesListJson);
+            return companies;
+        }else{
+            return objectMapper.readValue(companiesRedis, new TypeReference<List<Company>>() {});
+        }
     }
 
     /*
@@ -101,8 +123,25 @@ public class CompanyService {
             @CacheEvict(cacheNames = "product", allEntries = true)
     })
     @CachePut(cacheNames="company", key="#company.id", condition = "#company.id!=null")
-    public Company update(Company company) {
+    public Company update(Company company) throws JsonProcessingException {
+        String key="company::"+company.getId();
+        String companyJson=objectMapper.writeValueAsString(company);
+        redisTemplate.opsForValue().set(key,companyJson);
+        this.cleanCache(company.getId());
+        String message=port+"/updateCompany/"+company.getId();
+        redisTemplate.convertAndSend(topic.getTopic(),message);
         return this.companyDAO.save(company);
+    }
+
+    private void cleanCache(String companyId) {
+        redisTemplate.delete("companies");
+        redisTemplate.delete("products::"+companyId);
+        redisTemplate.delete("orders");
+        redisTemplate.delete("order");
+        redisTemplate.delete("companiesOrders::"+companyId);
+        redisTemplate.delete("customersOrders");
+        redisTemplate.delete("products::allProducts");
+        redisTemplate.delete("product");
     }
 
     /*
@@ -145,9 +184,15 @@ public class CompanyService {
             @CacheEvict(cacheNames = "product", allEntries = true)
     })
     @CachePut(cacheNames="company", key="#companyId", condition = "#companyId!=null")
-    public Company changeState(String companyId) {
+    public Company changeState(String companyId) throws JsonProcessingException {
         Company company=this.controlMethods.existCompany(companyId, false);
         company.setEnabled(!company.isEnabled());
+        String key="company::"+companyId;
+        String companyJson=objectMapper.writeValueAsString(company);
+        redisTemplate.opsForValue().set(key, companyJson);
+        this.cleanCache(company.getId());
+        String message=port+"/changeCompanyState/"+companyId;
+        redisTemplate.convertAndSend(topic.getTopic(), message);
         return this.companyDAO.save(company);
     }
 }

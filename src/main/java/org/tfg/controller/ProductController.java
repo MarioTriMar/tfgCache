@@ -1,5 +1,6 @@
 package org.tfg.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ProductController {
     el id de un producto. Su función es llamar al ProductService y devolver dicho producto.
      */
     @GetMapping("/getProductById/{id}")
-    public Product getProductById(@PathVariable String id){
+    public Product getProductById(@PathVariable String id) throws JsonProcessingException {
         return this.productService.getProductById(id);
     }
 
@@ -66,7 +67,7 @@ public class ProductController {
     Esto se lo pasa al ProductService para actualizar dicho producto con los nuevos valores.
      */
     @PutMapping("/updateProduct")
-    public Product updateProduct(@RequestBody Map<String,Object> product){
+    public Product updateProduct(@RequestBody Map<String,Object> product) throws JsonProcessingException {
         logger.info("UPDATING PRODUCT: "+product.toString());
 
         String id=product.get("id").toString();
@@ -83,7 +84,7 @@ public class ProductController {
     una lista que contenga todos los productos.
      */
     @GetMapping("/getProducts")
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts() throws JsonProcessingException {
         logger.info("GETTING ALL PRODUCTS");
         return this.productService.getAll();
     }
@@ -93,7 +94,7 @@ public class ProductController {
     el id del producto y llama al ProductService para cambiar su stock.
      */
     @PutMapping("/changeStock/{productId}/{companyId}")
-    public Product changeStock(@PathVariable String productId, @PathVariable String companyId){
+    public Product changeStock(@PathVariable String productId, @PathVariable String companyId) throws JsonProcessingException {
         logger.info("CHANGING STOCK OF PRODUCT: "+productId);
         return this.productService.changeStock(productId, companyId);
     }

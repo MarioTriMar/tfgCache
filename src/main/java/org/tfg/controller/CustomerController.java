@@ -1,5 +1,6 @@
 package org.tfg.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class CustomerController {
     el id de un cliente. Su función es llamar al CustomerService y devolver dicho cliente.
      */
     @GetMapping("/getCustomerById/{id}")
-    public Customer getCustomerById(@PathVariable String id){
+    public Customer getCustomerById(@PathVariable String id) throws JsonProcessingException {
         logger.info("GETTING CUSTOMER BY ID: "+id);
         return this.customerService.findCustomerById(id);
     }
@@ -62,7 +63,7 @@ public class CustomerController {
     y devolver una lista con todos los clientes.
      */
     @GetMapping("/getCustomers")
-    public List<Customer> getCustomers(){
+    public List<Customer> getCustomers() throws JsonProcessingException {
         logger.info("GETTING ALL CUSTOMERS");
         return this.customerService.getAll();
     }
@@ -72,7 +73,7 @@ public class CustomerController {
     Esto se lo pasa al CustomerService para actualizar dicho cliente con los nuevos valores.
      */
     @PutMapping("/updateCustomer")
-    public Customer update(@RequestBody Customer customer){
+    public Customer update(@RequestBody Customer customer) throws JsonProcessingException {
         logger.info("UPDATING CUSTOMER: "+customer.toString());
         return this.customerService.update(customer);
     }
@@ -81,7 +82,7 @@ public class CustomerController {
     el id del cliente y llama al CustomerService para cambiar su estado.
      */
     @PutMapping("/changeState/{customerId}")
-    public Customer changeState(@PathVariable String customerId){
+    public Customer changeState(@PathVariable String customerId) throws JsonProcessingException {
         logger.info("CHANGING CUSTOMER STATE: "+customerId);
         return this.customerService.changeState(customerId);
     }

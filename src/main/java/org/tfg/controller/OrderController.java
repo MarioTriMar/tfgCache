@@ -1,5 +1,6 @@
 package org.tfg.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class OrderController {
     Esto se lo pasa al OrderService para comprobar si se puede validar y guardarlo.
      */
     @PostMapping("/saveOrder")
-    public void saveOrder(@RequestBody Map<String, Object> info){
+    public void saveOrder(@RequestBody Map<String, Object> info) throws JsonProcessingException {
         logger.info("SAVING ORDER: "+info.toString());
 
         String companyId=info.get("companyId").toString();
@@ -46,7 +47,7 @@ public class OrderController {
     una lista con todos los pedidos.
      */
     @GetMapping("/getOrders")
-    public List<Order> getAll(){
+    public List<Order> getAll() throws JsonProcessingException {
         logger.info("GETTING ALL ORDERS");
         return this.orderService.getAll();
     }
@@ -56,7 +57,7 @@ public class OrderController {
     el id de un pedido. Su función es llamar al OrderService y devolver dicho pedido.
      */
     @GetMapping("/getOrderById/{id}")
-    public Order getOrderById(@PathVariable String id){
+    public Order getOrderById(@PathVariable String id) throws JsonProcessingException {
         logger.info("GETTING ORDER BY ID: "+id);
         return this.orderService.findOrderById(id);
     }
@@ -67,7 +68,7 @@ public class OrderController {
     de dicha compañía.
      */
     @GetMapping("/getOrdersOfCompany/{companyId}")
-    public List<Order> getOrdersOfCompany(@PathVariable String companyId){
+    public List<Order> getOrdersOfCompany(@PathVariable String companyId) throws JsonProcessingException {
         logger.info("GETTING ALL COMPANY ORDERS BY ID: "+companyId);
         return this.orderService.findByCompanyId(companyId);
     }
@@ -78,7 +79,7 @@ public class OrderController {
     de dicho cliente.
      */
     @GetMapping("/getOrdersOfCustomer/{customerId}")
-    public List<Order> getOrdersOfCustomer(@PathVariable String customerId){
+    public List<Order> getOrdersOfCustomer(@PathVariable String customerId) throws JsonProcessingException {
         logger.info("GETTING ALL CUSTOMER ORDERS BY ID: "+customerId);
         return this.orderService.findByCustomerId(customerId);
     }
@@ -89,7 +90,7 @@ public class OrderController {
     dinero que ha gastado el cliente.
      */
     @GetMapping("/totalMoney/{customerId}")
-    public double getTotalMoney(@PathVariable String customerId){
+    public double getTotalMoney(@PathVariable String customerId) throws JsonProcessingException {
         logger.info("GETTING TOTAL MONEY EXPEND BY CUSTOMER ID: "+customerId);
         return this.orderService.getTotalMoney(customerId);
     }

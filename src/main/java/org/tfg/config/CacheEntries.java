@@ -32,10 +32,19 @@ public class CacheEntries {
         return cacheEntries;
     }
 
-    public void evict(String cacheName) {
+    public void evict(String cacheName, String key) {
+        Cache cache=cacheManager.getCache(cacheName);
+        cache.evict(key);
+    }
+
+    public void clean(String cacheName) {
         Cache cache=cacheManager.getCache(cacheName);
         cache.clear();
     }
 
+    public void update(String cacheName, String key, Object object){
+        Cache cache=cacheManager.getCache(cacheName);
+        cache.put(key, object);
+    }
 }
 
