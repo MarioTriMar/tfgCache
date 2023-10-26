@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.tfg.model.Customer;
 import org.tfg.model.Product;
 import org.tfg.repository.CustomerDAO;
+import org.tfg.service.redis.CustomerRedis;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class CustomerService {
     @Value("${server.port}")
     private int port;
 
+    @Autowired
+    private CustomerRedis customerRedis;
+
     private final ObjectMapper objectMapper=new ObjectMapper();
 
     /*
@@ -53,10 +57,7 @@ public class CustomerService {
         customer.setName(name);
         customer.setEmail(email);
         customer.setEnabled(true);
-        redisTemplate.delete("customers");
-        String message=port+"/saveCustomer";
-        redisTemplate.convertAndSend(topic.getTopic(),message);
-        this.customerDAO.save(customer);
+        this.customerRedis.save(customer);
     }
 
     /*
@@ -65,38 +66,16 @@ public class CustomerService {
     Si encuentra al usuario lo devuelve.
      */
     @Cacheable(cacheNames = "customer", key="#id", condition = "#id!=null")
-    public Customer findCustomerById(String id) throws JsonProcessingException {
-        String key="customer::"+id;
-        String customerRedis=(String) redisTemplate.opsForValue().get(key);
-        if(customerRedis==null){
-            Optional<Customer> optCustomer=this.customerDAO.findById(id);
-            if(optCustomer.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer doesn't exist");
-            }
-            String customerJson = objectMapper.writeValueAsString(optCustomer.get());
-            redisTemplate.opsForValue().set(key,customerJson, Duration.ofMinutes(22220));
-            return optCustomer.get();
-        }else{
-            return objectMapper.readValue(customerRedis, new TypeReference<Customer>(){});
-        }
-
+    public Customer findCustomerById(String id){
+        return this.customerRedis.findCustomerById(id);
     }
 
     /*
     Este método devuelve la lista de clientes.
      */
     @Cacheable(cacheNames = "customers")
-    public List<Customer> getAll() throws JsonProcessingException {
-        String key="customers";
-        String customersRedis=(String)redisTemplate.opsForValue().get(key);
-        if(customersRedis==null){
-            List<Customer> customers=this.customerDAO.findAll();
-            String customersListJson = objectMapper.writeValueAsString(customers);
-            redisTemplate.opsForValue().set(key,customersListJson, Duration.ofMinutes(22220));
-            return customers;
-        }else{
-            return objectMapper.readValue(customersRedis, new TypeReference<List<Customer>>() {});
-        }
+    public List<Customer> getAll(){
+        return this.customerRedis.getAll();
     }
 
     /*
@@ -111,13 +90,8 @@ public class CustomerService {
             @CacheEvict(cacheNames = "customers", allEntries = true)
     })
     @CachePut(cacheNames = "customer", key = "#customer.id", condition = "#customer.id!=null")
-    public Customer update(Customer customer) throws JsonProcessingException {
-        String key="customer::"+customer.getId();
-        String customerJson=objectMapper.writeValueAsString(customer);
-        redisTemplate.opsForValue().set(key,customerJson);
-        String message=port+"/updateCustomer/"+customer.getId();
-        redisTemplate.convertAndSend(topic.getTopic(),message);
-        return this.customerDAO.save(customer);
+    public Customer update(Customer customer){
+        return this.customerRedis.update(customer);
     }
 
     /*
@@ -135,14 +109,9 @@ public class CustomerService {
             @CacheEvict(cacheNames = "customers", allEntries = true)
     })
     @CachePut(cacheNames = "customer", key = "#customerId", condition = "#customerId!=null")
-    public Customer changeState(String customerId) throws JsonProcessingException {
+    public Customer changeState(String customerId){
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         customer.setEnabled(!customer.isEnabled());
-        String key="customer::"+customerId;
-        String customerJson=objectMapper.writeValueAsString(customer);
-        redisTemplate.opsForValue().set(key,customerJson);
-        String message=port+"/changeCustomerState/"+customerId;
-        redisTemplate.convertAndSend(topic.getTopic(), message);
-        return this.customerDAO.save(customer);
+        return this.customerRedis.changeState(customer);
     }
 }

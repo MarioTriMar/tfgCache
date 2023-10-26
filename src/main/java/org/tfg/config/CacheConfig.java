@@ -51,6 +51,7 @@ public class CacheConfig extends CachingConfigurerSupport {
     public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig())
+                .withCacheConfiguration("products", RedisCacheConfiguration.defaultCacheConfig())
                 .build();
     }
 

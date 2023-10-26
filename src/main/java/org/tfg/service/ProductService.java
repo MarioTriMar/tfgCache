@@ -19,6 +19,7 @@ import org.tfg.model.Company;
 import org.tfg.model.Product;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
+import org.tfg.service.redis.ProductRedis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,23 +29,13 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductDAO productDAO;
-    @Autowired
-    private CompanyDAO companyDAO;
+
     @Autowired
     private ControlMethods controlMethods;
 
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
+    private ProductRedis productRedis;
 
-    @Autowired
-    private ChannelTopic topic;
-
-    @Value("${server.port}")
-    private int port;
-
-    private final ObjectMapper objectMapper=new ObjectMapper();
 
     /*
     Este método recibe por parámetros el nombre, los detalles y el precio de la compañía
@@ -65,11 +56,7 @@ public class ProductService {
         product.setPrice(price);
         product.setCompany(company);
         product.setStock(true);
-        redisTemplate.delete("products::allProducts");
-        redisTemplate.delete("products::"+companyId);
-        String message=port+"/saveProduct/"+companyId;
-        redisTemplate.convertAndSend(topic.getTopic(), message);
-        this.productDAO.save(product);
+        this.productRedis.save(product);
     }
     /*
     Este método recibe por parámetro el id, el nombre, los detalles, el precio
@@ -94,39 +81,14 @@ public class ProductService {
         product.setPrice(price);
         product.setName(name);
         product.setStock(stock);
-        String key="product::"+id;
-        String productJson=objectMapper.writeValueAsString(product);
-        redisTemplate.opsForValue().set(key,productJson);
-        this.cleanCache(id);
-        String message=port+"/updateProduct/"+id;
-        redisTemplate.convertAndSend(topic.getTopic(),message);
-        return this.productDAO.save(product);
+        return this.productRedis.updateProduct(product);
     }
-
-    private void cleanCache(String companyId) {
-        redisTemplate.delete("orders");
-        redisTemplate.delete("companiesOrders::"+companyId);
-        redisTemplate.delete("customersOrders");
-        redisTemplate.delete("order");
-        redisTemplate.delete("products::"+companyId);
-        redisTemplate.delete("products::allProducts");
-    }
-
     /*
     Este método devuelve la lista con todos los productos.
      */
     @Cacheable(cacheNames = "products", key = "'allProducts'")
     public List<Product> getAll() throws JsonProcessingException {
-        String key="products::allProducts";
-        String productsRedis=(String) redisTemplate.opsForValue().get(key);
-        if(productsRedis==null){
-            List<Product> products=this.productDAO.findAll();
-            String productsListJson=objectMapper.writeValueAsString(products);
-            redisTemplate.opsForValue().set(key, productsListJson);
-            return products;
-        }else{
-            return objectMapper.readValue(productsRedis, new TypeReference<List<Product>>() {});
-        }
+        return this.productRedis.getAll();
     }
 
     /*
@@ -151,13 +113,7 @@ public class ProductService {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Products doesn't belong to the company");
         }
         product.setStock(!product.isStock());
-        String key="product::"+productId;
-        String productJson=objectMapper.writeValueAsString(product);
-        redisTemplate.opsForValue().set(key,productJson);
-        this.cleanCache(companyId);
-        String message=port+"/changeStock/"+companyId;
-        redisTemplate.convertAndSend(topic.getTopic(),message);
-        return this.productDAO.save(product);
+        return this.productRedis.changeStock(product);
     }
 
     /*
@@ -167,19 +123,6 @@ public class ProductService {
      */
     @Cacheable(cacheNames = "product", key="#id", condition = "#id!=null")
     public Product getProductById(String id) throws JsonProcessingException {
-        String key="product::"+id;
-        String productRedis=(String) redisTemplate.opsForValue().get(key);
-        if(productRedis==null){
-            Optional<Product> optProduct=this.productDAO.findById(id);
-            if(optProduct.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product doesn't exist");
-            }
-            String productJson = objectMapper.writeValueAsString(optProduct.get());
-            redisTemplate.opsForValue().set(key,productJson);
-            return optProduct.get();
-        }else{
-            return objectMapper.readValue(productRedis, new TypeReference<Product>(){});
-        }
-
+        return this.productRedis.getProductById(id);
     }
 }

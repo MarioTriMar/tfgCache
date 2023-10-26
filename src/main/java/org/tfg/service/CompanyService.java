@@ -19,6 +19,7 @@ import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.tfg.service.redis.CompanyRedis;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -37,6 +38,8 @@ public class CompanyService {
     @Autowired
     private ControlMethods controlMethods;
 
+    @Autowired
+    private CompanyRedis companyRedis;
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
 
@@ -62,10 +65,7 @@ public class CompanyService {
         company.setCif(cif);
         company.setContactEmail(contactEmail);
         company.setEnabled(true);
-        redisTemplate.delete("companies");
-        String message=port+"/saveCompany";
-        redisTemplate.convertAndSend(topic.getTopic(), message);
-        this.companyDAO.save(company);
+        this.companyRedis.save(company);
     }
 
     /*
@@ -75,20 +75,7 @@ public class CompanyService {
      */
     @Cacheable(cacheNames = "company", key="#id", condition = "#id!=null")
     public Company findCompanyById(String id) throws JsonProcessingException {
-        String key="company::"+id;
-        String companyRedis=(String) redisTemplate.opsForValue().get(key);
-        if(companyRedis==null){
-            Optional<Company> optCompany=this.companyDAO.findById(id);
-            if(optCompany.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company doesn't exist");
-            }
-            String companyJson = objectMapper.writeValueAsString(optCompany.get());
-            redisTemplate.opsForValue().set(key,companyJson, Duration.ofMinutes(22220));
-            return optCompany.get();
-        }else{
-            return objectMapper.readValue(companyRedis, new TypeReference<Company>(){});
-        }
-
+        return this.companyRedis.findCompanyById(id);
     }
 
     /*
@@ -96,16 +83,7 @@ public class CompanyService {
      */
     @Cacheable(cacheNames = "companies")
     public List<Company> getAll() throws JsonProcessingException {
-        String key="companies";
-        String companiesRedis=(String)redisTemplate.opsForValue().get(key);
-        if(companiesRedis==null){
-            List<Company> companies=this.companyDAO.findAll();
-            String companiesListJson=objectMapper.writeValueAsString(companies);
-            redisTemplate.opsForValue().set(key,companiesListJson);
-            return companies;
-        }else{
-            return objectMapper.readValue(companiesRedis, new TypeReference<List<Company>>() {});
-        }
+        return this.companyRedis.getAll();
     }
 
     /*
@@ -124,24 +102,7 @@ public class CompanyService {
     })
     @CachePut(cacheNames="company", key="#company.id", condition = "#company.id!=null")
     public Company update(Company company) throws JsonProcessingException {
-        String key="company::"+company.getId();
-        String companyJson=objectMapper.writeValueAsString(company);
-        redisTemplate.opsForValue().set(key,companyJson);
-        this.cleanCache(company.getId());
-        String message=port+"/updateCompany/"+company.getId();
-        redisTemplate.convertAndSend(topic.getTopic(),message);
-        return this.companyDAO.save(company);
-    }
-
-    private void cleanCache(String companyId) {
-        redisTemplate.delete("companies");
-        redisTemplate.delete("products::"+companyId);
-        redisTemplate.delete("orders");
-        redisTemplate.delete("order");
-        redisTemplate.delete("companiesOrders::"+companyId);
-        redisTemplate.delete("customersOrders");
-        redisTemplate.delete("products::allProducts");
-        redisTemplate.delete("product");
+        return this.companyRedis.update(company);
     }
 
     /*
@@ -152,20 +113,8 @@ public class CompanyService {
      */
     @Cacheable(cacheNames = "products", key="#id", condition = "#id!=null", unless="#result == null")
     public List<Product> findCompanyProducts(String id) throws JsonProcessingException {
-        String key="products::"+id;
-        List<Product> products= new ArrayList<>();
-        String productsRedis= (String) redisTemplate.opsForValue().get(key);
-        ObjectMapper objectMapper=new ObjectMapper();
-        if(productsRedis==null){
-            Company company=this.controlMethods.existCompany(id, false);
-            products= productDAO.findByCompanyId(company.getId());
-            String productListJson = objectMapper.writeValueAsString(products);
-            redisTemplate.opsForValue().set(key, productListJson);
-        }else{
-            return objectMapper.readValue(productsRedis, new TypeReference<List<Product>>() {});
-        }
-        return products;
-
+        Company company=this.controlMethods.existCompany(id, false);
+        return this.companyRedis.findCompanyProducts(id);
     }
 
     /*
@@ -187,12 +136,6 @@ public class CompanyService {
     public Company changeState(String companyId) throws JsonProcessingException {
         Company company=this.controlMethods.existCompany(companyId, false);
         company.setEnabled(!company.isEnabled());
-        String key="company::"+companyId;
-        String companyJson=objectMapper.writeValueAsString(company);
-        redisTemplate.opsForValue().set(key, companyJson);
-        this.cleanCache(company.getId());
-        String message=port+"/changeCompanyState/"+companyId;
-        redisTemplate.convertAndSend(topic.getTopic(), message);
-        return this.companyDAO.save(company);
+        return this.companyRedis.changeState(company);
     }
 }
