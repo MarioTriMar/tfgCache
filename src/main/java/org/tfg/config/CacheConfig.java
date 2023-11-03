@@ -3,12 +3,15 @@ package org.tfg.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -49,8 +52,8 @@ public class CacheConfig extends CachingConfigurerSupport {
 
 
     @Bean
-    public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
-        return (builder) -> builder
+    public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+        return RedisCacheManager.builder(redisConnectionFactory)
                 .withCacheConfiguration("companies",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
                 .withCacheConfiguration("company",
@@ -70,7 +73,8 @@ public class CacheConfig extends CachingConfigurerSupport {
                 .withCacheConfiguration("companiesOrders",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
                 .withCacheConfiguration("orders",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)));
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
+                .build();
     }
 
     @Override
