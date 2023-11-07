@@ -49,20 +49,10 @@ public class OrderService {
             Product product=this.controlMethods.existProduct(products.get(i), true);
             productList.add(product);
         }
-        if(!belongsProductToCompany(companyId, productList)){
+        if(!this.controlMethods.belongsProductToCompany(companyId, productList)){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Products doesn't belong to the company");
         }
         this.makeOrder(id, creationTime, company, customer, productList);
-    }
-
-    /*
-    Este método recibe por parámetros el id de la compañía y la lista de productos
-    del pedido. Comprueba si esos pedidos pertenecen a la compañía a la que se quiere hacer
-    el pedido.
-     */
-    private boolean belongsProductToCompany(String companyId, List<Product> productList) {
-        List<Product> companyProduct=this.productDAO.findByCompanyId(companyId);
-        return (companyProduct.containsAll(productList));
     }
 
     /*

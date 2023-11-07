@@ -11,6 +11,7 @@ import org.tfg.repository.ProductDAO;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.CustomerDAO;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,4 +72,14 @@ public class ControlMethods {
         return optionalProduct.get();
     }
 
+
+    /*
+    Este método recibe por parámetros el id de la compañía y la lista de productos
+    del pedido. Comprueba si esos pedidos pertenecen a la compañía a la que se quiere hacer
+    el pedido.
+     */
+    public boolean belongsProductToCompany(String companyId, List<Product> productList) {
+        List<Product> companyProduct=this.productDAO.findByCompanyId(companyId);
+        return (companyProduct.containsAll(productList));
+    }
 }
