@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface ProductDAO extends JpaRepository<Product, String> {
     List<Product> findByCompanyId(String company);
+
+
+    void deleteByName(String name);
 }

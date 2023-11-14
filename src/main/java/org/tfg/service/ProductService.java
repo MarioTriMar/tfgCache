@@ -32,7 +32,7 @@ public class ProductService {
     empresa que no está activa.
     Crea el objeto Product y lo guarda en la BBDD.
      */
-    public void save(String name, String details, double price, String companyId) {
+    public Product save(String name, String details, double price, String companyId) {
         Company company=this.controlMethods.existCompany(companyId, true);
         Product product=new Product();
         product.setName(name);
@@ -41,6 +41,7 @@ public class ProductService {
         product.setCompany(company);
         product.setStock(true);
         this.productDAO.save(product);
+        return product;
     }
     /*
     Este método recibe por parámetro el id, el nombre, los detalles, el precio

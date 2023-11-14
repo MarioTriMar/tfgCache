@@ -23,12 +23,12 @@ public class CustomerService {
     Crea el objeto Customer y le asigna el nombre, el email y que está activo.
     Guarda el cliente en la BBDD.
      */
-    public void save(String name, String email){
+    public Customer save(String name, String email){
         Customer customer=new Customer();
         customer.setName(name);
         customer.setEmail(email);
         customer.setEnabled(true);
-        this.customerDAO.save(customer);
+        return this.customerDAO.save(customer);
     }
 
     /*

@@ -35,7 +35,7 @@ public class CompanyController {
     Esto se lo pasa al CompanyService para registrarla y guardarla.
      */
     @PostMapping("/register")
-    public void saveCompany(@RequestBody Map<String, Object> info){
+    public Company saveCompany(@RequestBody Map<String, Object> info){
         logger.info("SAVING COMPANY: "+info.toString());
 
         Pattern pattern = Pattern.compile("^(.+)@(.+)$");
@@ -47,7 +47,7 @@ public class CompanyController {
         if(!pattern.matcher(contactEmail).find()){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Incorrect email");
         }
-        this.companyService.save(name, cif, contactEmail);
+        return this.companyService.save(name, cif, contactEmail);
     }
 
     /*

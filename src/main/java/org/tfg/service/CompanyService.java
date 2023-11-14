@@ -32,13 +32,13 @@ public class CompanyService {
     Crea el objeto Company y le asigna el nombre, el cif, el email y que está activa.
     Guarda la compañía en la BBDD.
      */
-    public void save(String name, String cif, String contactEmail){
+    public Company save(String name, String cif, String contactEmail){
         Company company=new Company();
         company.setName(name);
         company.setCif(cif);
         company.setContactEmail(contactEmail);
         company.setEnabled(true);
-        this.companyDAO.save(company);
+        return this.companyDAO.save(company);
     }
 
     /*

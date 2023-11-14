@@ -33,7 +33,7 @@ public class CustomerController {
     al CustomerService para registrarlo y guardarlo.
      */
     @PostMapping("/register")
-    public void saveCustomer(@RequestBody Map<String, Object> info){
+    public Customer saveCustomer(@RequestBody Map<String, Object> info){
         logger.info("SAVING CUSTOMER: "+info.toString());
         Pattern pattern = Pattern.compile("^(.+)@(.+)$");
 
@@ -44,7 +44,7 @@ public class CustomerController {
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Incorrect email");
         }
 
-        this.customerService.save(name, email);
+        return this.customerService.save(name, email);
     }
 
     /*

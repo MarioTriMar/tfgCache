@@ -12,6 +12,9 @@ import org.tfg.model.Company;
 import org.tfg.model.Customer;
 import org.tfg.model.Order;
 import org.tfg.model.Product;
+import org.tfg.repository.CompanyDAO;
+import org.tfg.repository.CustomerDAO;
+import org.tfg.repository.ProductDAO;
 
 
 import java.util.ArrayList;
@@ -33,6 +36,14 @@ public class TfgCacheApplicationTest {
     private OrderController orderController;
     @Autowired
     private ProductController productController;
+
+    @Autowired
+    private ProductDAO productDAO;
+    @Autowired
+    private CompanyDAO companyDAO;
+    @Autowired
+    private CustomerDAO customerDAO;
+
     private Company company;
     private Customer customer;
 
@@ -247,13 +258,13 @@ public class TfgCacheApplicationTest {
     @Test
     void getCustomers(){
         List<Customer> customers=customerController.getCustomers();
-        assertEquals(customers.size(), 8);
+        assertEquals(customers.size(), 9);
     }
 
     @Test
     void getAllOrders(){
         List<Order> orders = orderController.getAll();
-        assertEquals(132, orders.size());
+        assertEquals(134, orders.size());
     }
 
     @Test
@@ -268,12 +279,50 @@ public class TfgCacheApplicationTest {
     @Test
     void getOrdersOfCompany(){
         List<Order> orders=orderController.getOrdersOfCompany("39b58bf7-e906-4a48-a950-e425191e3779");
-        assertEquals(17, orders.size());
+        assertEquals(18, orders.size());
     }
 
     @Test
     void getOrdersOfCustomer(){
         List<Order> orders=orderController.getOrdersOfCustomer("f0592475-15c8-49b9-b7fa-ffa06ee59909");
         assertEquals(14, orders.size());
+    }
+
+    @Test
+    void saveProduct(){
+        Map<String, Object> product=new HashMap<>();
+        product.put("name","Atún");
+        product.put("details", "90gr");
+        product.put("price",4.50);
+        product.put("companyId","5f5b217b-94b5-49e7-b2fc-018d18f2b483");
+        List<Product> companyProducts=companyController.getCompanyProducts("5f5b217b-94b5-49e7-b2fc-018d18f2b483");
+        assertEquals(7, companyProducts.size());
+        Product producto=productController.saveProduct(product);
+        companyProducts=companyController.getCompanyProducts("5f5b217b-94b5-49e7-b2fc-018d18f2b483");
+        assertEquals(8, companyProducts.size());
+        productDAO.delete(producto);
+    }
+
+    @Test
+    void saveCompany(){
+        Map<String,Object> info=new HashMap<>();
+        info.put("name","Coviran");
+        info.put("cif","dawdawd");
+        info.put("contactEmail","coviran@email.com");
+        Company company=companyController.saveCompany(info);
+        Company companyFind=companyController.getCompanyById(company.getId());
+        assertEquals(companyFind.getName(), "Coviran");
+        companyDAO.delete(company);
+    }
+
+    @Test
+    void saveCustomer(){
+        Map<String, Object> info=new HashMap<>();
+        info.put("name","Dani");
+        info.put("email","dani@email.com");
+        Customer customer=customerController.saveCustomer(info);
+        Customer customerFind=customerController.getCustomerById(customer.getId());
+        assertEquals(customerFind.getName(), "Dani");
+        customerDAO.delete(customer);
     }
 }
