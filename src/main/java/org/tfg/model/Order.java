@@ -31,7 +31,7 @@ public class Order implements Serializable {
     pedidos y un pedido pertenece a un cliente.
      */
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name="orders_product",
             joinColumns = @JoinColumn(name="order_id"),

@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 
 import java.time.Duration;
@@ -39,7 +40,7 @@ public class CacheConfig extends CachingConfigurerSupport {
         return new LettuceConnectionFactory(configuration);
     }
 
-
+    /*
     @Bean
     public RedisTemplate<String, Object> redisTemplate(){
         RedisTemplate<String, Object> template = new RedisTemplate<>();
@@ -48,7 +49,7 @@ public class CacheConfig extends CachingConfigurerSupport {
         template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
         return template;
     }
-
+    */
 
 
     @Bean
@@ -73,7 +74,8 @@ public class CacheConfig extends CachingConfigurerSupport {
                 .withCacheConfiguration("companiesOrders",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
                 .withCacheConfiguration("orders",
-                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
                 .build();
     }
 
