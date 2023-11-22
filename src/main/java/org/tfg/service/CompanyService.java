@@ -161,11 +161,10 @@ public class CompanyService {
             products= productDAO.findByCompanyId(company.getId());
             String productListJson = objectMapper.writeValueAsString(products);
             redisTemplate.opsForValue().set(key, productListJson);
+            return products;
         }else{
             return objectMapper.readValue(productsRedis, new TypeReference<List<Product>>() {});
         }
-        return products;
-
     }
 
     /*
