@@ -48,7 +48,7 @@ public class ProductRedis {
             @CacheEvict(cacheNames = "products", key = "#companyId"),
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
-    @CachePut(cacheNames = "product", key = "#id", condition = "#id!=null")
+    @CachePut(cacheNames = "product", key = "#product.id", condition = "#id!=null")
     public Product updateProduct(Product product){
         String message=port+"/updateProduct/"+product.getId();
         redisTemplate.convertAndSend(topic.getTopic(),message);
@@ -68,7 +68,7 @@ public class ProductRedis {
             @CacheEvict(cacheNames = "products", key = "#companyId"),
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
-    @CachePut(cacheNames = "product", key = "#productId", condition = "#productId!=null")
+    @CachePut(cacheNames = "product", key = "#product.id", condition = "#productId!=null")
     public Product changeStock(Product product){
         String message=port+"/changeStock/"+product.getCompany().getId();
         redisTemplate.convertAndSend(topic.getTopic(),message);

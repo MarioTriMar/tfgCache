@@ -34,11 +34,11 @@ public class OrderRedis {
     private int port;
 
     @Caching(evict={
-            @CacheEvict(cacheNames = "companiesOrders", key="#companyId"),
-            @CacheEvict(cacheNames = "customersOrders", key="#customerId"),
+            @CacheEvict(cacheNames = "companiesOrders", key="#order.company.id"),
+            @CacheEvict(cacheNames = "customersOrders", key="#order.customer.id"),
             @CacheEvict(cacheNames = "orders", allEntries = true),
             @CacheEvict(cacheNames = "order", allEntries = true),
-            @CacheEvict(cacheNames = "money", key="#customerId")
+            @CacheEvict(cacheNames = "money", key="#order.customer.id")
     })
     public void saveOrder(Order order){
         String message=port+"/saveCustomer";
@@ -60,17 +60,17 @@ public class OrderRedis {
         return optOrder.get();
     }
 
-    @Cacheable(cacheNames = "companiesOrders", key="#companyId", condition = "#companyId!=null")
+    @Cacheable(cacheNames = "companiesOrders", key="#company.id", condition = "#companyId!=null")
     public List<Order> findByCompanyId(Company company){
         return this.orderDAO.findByCompany(company);
     }
 
-    @Cacheable(cacheNames="customersOrders", key="#customerId", condition = "#customerId!=null")
+    @Cacheable(cacheNames="customersOrders", key="#customer.id", condition = "#customerId!=null")
     public List<Order> findByCustomerId(Customer customer){
         return this.orderDAO.findByCustomer(customer);
     }
 
-    @Cacheable(cacheNames="money", key="#customerId", condition = "#customerId!=null")
+    @Cacheable(cacheNames="money", key="#customer.id", condition = "#customerId!=null")
     public double getTotalMoney(Customer customer){
         double total=0;
         List<Order> orders=this.findByCustomerId(customer);

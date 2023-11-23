@@ -67,11 +67,11 @@ public class CustomerRedis {
     @Caching(evict = {
             @CacheEvict(cacheNames = "orders", allEntries = true),
             @CacheEvict(cacheNames = "companiesOrders", allEntries = true),
-            @CacheEvict(cacheNames = "customersOrders", key = "#customerId"),
+            @CacheEvict(cacheNames = "customersOrders", key = "#customer.id"),
             @CacheEvict(cacheNames = "order", allEntries = true),
             @CacheEvict(cacheNames = "customers", allEntries = true)
     })
-    @CachePut(cacheNames = "customer", key = "#customerId", condition = "#customerId!=null")
+    @CachePut(cacheNames = "customer", key = "#customer.id", condition = "#customerId!=null")
     public Customer changeState(Customer customer){
         String message=port+"/changeCustomerState/"+customer.getId();
         redisTemplate.convertAndSend(topic.getTopic(), message);

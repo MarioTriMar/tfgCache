@@ -40,6 +40,7 @@ public class Product implements Serializable {
     productos y un producto pertenece a una compañía.
      */
 
+
     @ManyToMany(mappedBy = "product")
     private List<Order> orders;
     /*

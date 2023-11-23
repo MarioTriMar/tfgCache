@@ -79,15 +79,15 @@ public class CompanyRedis {
 
     @Caching(evict={
             @CacheEvict(cacheNames="companies", allEntries = true),
-            @CacheEvict(cacheNames="products", key="#companyId"),
+            @CacheEvict(cacheNames="products", key="#company.id"),
             @CacheEvict(cacheNames="orders", allEntries = true),
             @CacheEvict(cacheNames="order", allEntries = true),
-            @CacheEvict(cacheNames="companiesOrders", key = "#companyId"),
+            @CacheEvict(cacheNames="companiesOrders", key = "#company.id"),
             @CacheEvict(cacheNames = "customersOrders", allEntries = true),
             @CacheEvict(cacheNames="products", key="'allProducts'"),
             @CacheEvict(cacheNames = "product", allEntries = true)
     })
-    @CachePut(cacheNames="company", key="#companyId", condition = "#companyId!=null")
+    @CachePut(cacheNames="company", key="#company.id", condition = "#companyId!=null")
     public Company changeState(Company company){
         String message=port+"/changeCompanyState/"+company.getId();
         redisTemplate.convertAndSend(topic.getTopic(), message);
