@@ -21,9 +21,11 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.tfg.subscriber.Receiver;
 
 
+import java.time.Duration;
 import java.util.List;
 
 
@@ -50,16 +52,32 @@ public class CacheConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
-                .withCacheConfiguration("companies", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("company", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("products", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("product", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("customer", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("customers", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("order", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("customersOrders", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("companiesOrders", RedisCacheConfiguration.defaultCacheConfig())
-                .withCacheConfiguration("orders", RedisCacheConfiguration.defaultCacheConfig())
+                .withCacheConfiguration("companies",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                .withCacheConfiguration("company",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
+                .withCacheConfiguration("products",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                .withCacheConfiguration("product",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
+                .withCacheConfiguration("customer",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
+                .withCacheConfiguration("customers",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                .withCacheConfiguration("order",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20)))
+                .withCacheConfiguration("customersOrders",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                .withCacheConfiguration("companiesOrders",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                .withCacheConfiguration("orders",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
                 .build();
     }
 
