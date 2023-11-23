@@ -1,6 +1,10 @@
 package org.tfg.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +14,7 @@ import org.tfg.model.Product;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +26,9 @@ public class ProductService {
     private ProductDAO productDAO;
     @Autowired
     private CompanyDAO companyDAO;
-
     @Autowired
     private ControlMethods controlMethods;
+
 
     /*
     Este método recibe por parámetros el nombre, los detalles y el precio de la compañía
@@ -32,6 +37,10 @@ public class ProductService {
     empresa que no está activa.
     Crea el objeto Product y lo guarda en la BBDD.
      */
+    @Caching(evict={
+            @CacheEvict(cacheNames = "products", key="'allProducts'"),
+            @CacheEvict(cacheNames = "products", key="#companyId")
+    })
     public void save(String name, String details, double price, String companyId) {
         Company company=this.controlMethods.existCompany(companyId, true);
         Product product=new Product();
@@ -48,7 +57,16 @@ public class ProductService {
     Primero comprueba si existen y si están activos o en stock la compañía y el producto.
     Después actualiza los valores y guarda el producto.
      */
-    public void updateProduct(String id, String name, String details, double price, boolean stock, String companyId) {
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "orders", allEntries = true),
+            @CacheEvict(cacheNames = "companiesOrders", key = "#companyId"),
+            @CacheEvict(cacheNames = "customersOrders", allEntries = true),
+            @CacheEvict(cacheNames = "order", allEntries = true),
+            @CacheEvict(cacheNames = "products", key = "#companyId"),
+            @CacheEvict(cacheNames = "products", key = "'allProducts'")
+    })
+    @CachePut(cacheNames = "product", key = "#id", condition = "#id!=null")
+    public Product updateProduct(String id, String name, String details, double price, boolean stock, String companyId) {
         Company company=this.controlMethods.existCompany(companyId, true);
         Product product=this.controlMethods.existProduct(id, true);
         product.setCompany(company);
@@ -56,12 +74,13 @@ public class ProductService {
         product.setPrice(price);
         product.setName(name);
         product.setStock(stock);
-        this.productDAO.save(product);
+        return this.productDAO.save(product);
     }
 
     /*
     Este método devuelve la lista con todos los productos.
      */
+    @Cacheable(cacheNames = "products", key = "'allProducts'")
     public List<Product> getAll() {
         return this.productDAO.findAll();
     }
@@ -71,10 +90,24 @@ public class ProductService {
     Su función es cambiar el estado del stock. Primero comprueba si el producto
     existe.
      */
-    public void changeStock(String productId) {
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "orders", allEntries = true),
+            @CacheEvict(cacheNames = "order", allEntries = true),
+            @CacheEvict(cacheNames = "companiesOrders", key = "#companyId"),
+            @CacheEvict(cacheNames = "customersOrders", allEntries = true),
+            @CacheEvict(cacheNames = "products", key = "#companyId"),
+            @CacheEvict(cacheNames = "products", key = "'allProducts'")
+    })
+    @CachePut(cacheNames = "product", key = "#productId", condition = "#productId!=null")
+    public Product changeStock(String productId, String companyId) {
+        List<Product> productList=new ArrayList<>();
         Product product=this.controlMethods.existProduct(productId, false);
+        productList.add(product);
+        if(!this.controlMethods.belongsProductToCompany(companyId, productList)){
+            throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Products doesn't belong to the company");
+        }
         product.setStock(!product.isStock());
-        this.productDAO.save(product);
+        return this.productDAO.save(product);
     }
 
     /*
@@ -82,6 +115,7 @@ public class ProductService {
     Busca dicho producto en la BBDD, en caso de no estar lanza un 404.
     Si lo encuentra lo devuelve.
      */
+    @Cacheable(cacheNames = "product", key="#id", condition = "#id!=null")
     public Product getProductById(String id) {
         Optional<Product> optProduct=this.productDAO.findById(id);
         if(optProduct.isEmpty()){

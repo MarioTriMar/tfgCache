@@ -50,10 +50,6 @@ public class CompanyController {
         this.companyService.save(name, cif, contactEmail);
     }
 
-    /*
-    Este método es llamado mediante petición GET y se le pasa como PathVariable
-    el id de una compañía. Su función es llamar al CompanyService y devolver dicha compañía.
-     */
     @GetMapping("/getCompanyById/{id}")
     public Company getCompanyById(@PathVariable String id){
         logger.info("GETTING COMPANY BY ID: "+id);
@@ -86,9 +82,9 @@ public class CompanyController {
     Esto se lo pasa al CompanyService para actualizar dicha compañía con los nuevos valores.
      */
     @PutMapping("/updateCompany")
-    public void update(@RequestBody Company company){
+    public Company update(@RequestBody Company company){
         logger.info("UPDATING COMPANY: "+company.toString());
-        this.companyService.update(company);
+        return this.companyService.update(company);
     }
 
     /*
@@ -96,9 +92,9 @@ public class CompanyController {
     el id de la compañía y llama al CompanyService para cambiar su estado.
      */
     @PutMapping("/changeState/{companyId}")
-    public void changeState(@PathVariable String companyId){
+    public Company changeState(@PathVariable String companyId){
         logger.info("CHANGING STATE COMPANY: "+companyId);
-        this.companyService.changeState(companyId);
+        return this.companyService.changeState(companyId);
     }
 
 }

@@ -87,7 +87,7 @@ public class OrderController {
     Este método es llamado mediante petición GET y se le pasa como PathVariable
     el id de un cliente. Su función es llamar al OrderService y devolver la cantidad de
     dinero que ha gastado el cliente.
-    */
+     */
     @GetMapping("/totalMoney/{customerId}")
     public double getTotalMoney(@PathVariable String customerId){
         logger.info("GETTING TOTAL MONEY EXPEND BY CUSTOMER ID: "+customerId);

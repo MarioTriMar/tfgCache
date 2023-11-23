@@ -9,10 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="despliegue docker">
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="cacheEvict">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cacheRedis" />
+        <entry key="$PROJECT_DIR$" value="noCache" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -68,31 +66,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultPlantUmlFileTemplate": "UML Sequence",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "noCache",
-    "last_opened_file_path": "C:/Users/mtrivino/IdeaProjects/tfgCache/target",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultPlantUmlFileTemplate&quot;: &quot;UML Sequence&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;cacheLocal&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mtrivino/IdeaProjects/tfgCache/target&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.tfg.service" />
       <recent name="org.tfg.repository" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\mtrivino\IdeaProjects\tfgCache\src\test\java\org" />
-    </key>
   </component>
-  <component name="RunManager" selected="JUnit.TfgCacheApplicationTest.changeProductState">
+  <component name="RunManager">
     <configuration name="TfgCacheApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="19" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -108,94 +103,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TfgCacheApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tfgCache" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.tfg.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.tfg" />
-      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TfgCacheApplicationTest.changeProductState" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tfgCache" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.tfg.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.tfg" />
-      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
-      <option name="METHOD_NAME" value="changeProductState" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TfgCacheApplicationTest.getAllProducts" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tfgCache" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.tfg.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.tfg" />
-      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
-      <option name="METHOD_NAME" value="getAllProducts" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TfgCacheApplicationTest.getProductById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tfgCache" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.tfg.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.tfg" />
-      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
-      <option name="METHOD_NAME" value="getProductById" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TfgCacheApplicationTest.totalMoney" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="tfgCache" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.tfg.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="org.tfg" />
-      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
-      <option name="METHOD_NAME" value="totalMoney" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.TfgCacheApplicationTest.changeProductState" />
-        <item itemvalue="JUnit.TfgCacheApplicationTest" />
-        <item itemvalue="JUnit.TfgCacheApplicationTest.getAllProducts" />
-        <item itemvalue="JUnit.TfgCacheApplicationTest.getProductById" />
-        <item itemvalue="JUnit.TfgCacheApplicationTest.totalMoney" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -310,15 +217,47 @@
       <option name="project" value="LOCAL" />
       <updated>1695738781129</updated>
     </task>
-    <task id="LOCAL-00014" summary="money">
+    <task id="LOCAL-00014" summary="properties">
       <option name="closed" value="true" />
-      <created>1697626610490</created>
+      <created>1695807659131</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1697626610490</updated>
+      <updated>1695807659131</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="spring cache">
+      <option name="closed" value="true" />
+      <created>1695896883220</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1695896883220</updated>
+    </task>
+    <task id="LOCAL-00016" summary="cache">
+      <option name="closed" value="true" />
+      <created>1696234472898</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1696234472898</updated>
+    </task>
+    <task id="LOCAL-00017" summary="totalmoney">
+      <option name="closed" value="true" />
+      <created>1696238304792</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1696238304793</updated>
+    </task>
+    <task id="LOCAL-00018" summary="cacheEvict">
+      <option name="closed" value="true" />
+      <created>1700723241853</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1700723241853</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -332,7 +271,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="origin/cacheLocal" />
                       </list>
                     </value>
                   </entry>
@@ -349,7 +288,6 @@
     <MESSAGE value="GetOrdes by companies and customers" />
     <MESSAGE value="Delete + timestamp" />
     <MESSAGE value="FindByIds" />
-    <MESSAGE value="properties" />
     <MESSAGE value="Products" />
     <MESSAGE value="ManyToMany solved, methods refactores" />
     <MESSAGE value="Flags de estado, comentarios y refactorización métodos comunes en una clase" />
@@ -358,11 +296,34 @@
     <MESSAGE value="jar fixed + dockerfile" />
     <MESSAGE value="docker + mysql docker properties" />
     <MESSAGE value="properties + postgresql" />
-    <MESSAGE value="money" />
-    <option name="LAST_COMMIT_MESSAGE" value="money" />
+    <MESSAGE value="properties" />
+    <MESSAGE value="spring cache" />
+    <MESSAGE value="cache" />
+    <MESSAGE value="totalmoney" />
+    <MESSAGE value="cacheEvict" />
+    <option name="LAST_COMMIT_MESSAGE" value="cacheEvict" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java</url>
+          <line>118</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/tfgCache$TfgCacheApplicationTest.ic" NAME="TfgCacheApplicationTest Coverage Results" MODIFIED="1697727909034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/tfgCache$TfgCacheApplicationTest.ic" NAME="TfgCacheApplicationTest Coverage Results" MODIFIED="1699962438934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>org.tfg.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/tfgCache$TfgCacheApplicationTest_saveProduct.ic" NAME="TfgCacheApplicationTest.saveProduct Coverage Results" MODIFIED="1699961257792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>org.tfg.*</FILTER>
     </SUITE>
   </component>
