@@ -55,13 +55,11 @@ public class CacheEntries {
 
     //Cada 5 minutos
     @Scheduled(fixedRate = 300000)
-    public void emptyCache() {
-        logger.info("Cleaning cache");
-        evictAllCaches();
-    }
     public void evictAllCaches() {
+        logger.info("Cleaning cache");
         cacheManager.getCacheNames().stream()
                 .forEach(cacheName -> cacheManager.getCache(cacheName).clear());
     }
+   
 }
 
