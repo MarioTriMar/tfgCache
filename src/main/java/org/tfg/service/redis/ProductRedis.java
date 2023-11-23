@@ -42,10 +42,10 @@ public class ProductRedis {
     }
     @Caching(evict = {
             @CacheEvict(cacheNames = "orders", allEntries = true),
-            @CacheEvict(cacheNames = "companiesOrders", key = "#companyId"),
+            @CacheEvict(cacheNames = "companiesOrders", key = "#product.company.id"),
             @CacheEvict(cacheNames = "customersOrders", allEntries = true),
             @CacheEvict(cacheNames = "order", allEntries = true),
-            @CacheEvict(cacheNames = "products", key = "#companyId"),
+            @CacheEvict(cacheNames = "products", key = "#product.company.id"),
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
     @CachePut(cacheNames = "product", key = "#product.id", condition = "#id!=null")
@@ -63,9 +63,9 @@ public class ProductRedis {
     @Caching(evict = {
             @CacheEvict(cacheNames = "orders", allEntries = true),
             @CacheEvict(cacheNames = "order", allEntries = true),
-            @CacheEvict(cacheNames = "companiesOrders", key = "#companyId"),
+            @CacheEvict(cacheNames = "companiesOrders", key = "#product.company.id"),
             @CacheEvict(cacheNames = "customersOrders", allEntries = true),
-            @CacheEvict(cacheNames = "products", key = "#companyId"),
+            @CacheEvict(cacheNames = "products", key = "#product.company.id"),
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
     @CachePut(cacheNames = "product", key = "#product.id", condition = "#productId!=null")
