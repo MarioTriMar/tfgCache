@@ -54,7 +54,10 @@ public class CustomerService {
     Este método devuelve la lista de clientes.
      */
     @Cacheable(cacheNames = "customers")
-    public List<Customer> getAll(){ return this.customerDAO.findAll(); }
+    public List<Customer> getAll(){
+        System.out.println("");
+        return this.customerDAO.findAll();
+    }
 
     /*
     Este método recibe por parametro un cliente.

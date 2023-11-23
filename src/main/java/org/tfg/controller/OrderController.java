@@ -56,7 +56,7 @@ public class OrderController {
     el id de un pedido. Su función es llamar al OrderService y devolver dicho pedido.
      */
     @GetMapping("/getOrderById/{id}")
-    public Order getOrderById(@PathVariable String id){
+    public Object getOrderById(@PathVariable String id){
         logger.info("GETTING ORDER BY ID: "+id);
         return this.orderService.findOrderById(id);
     }

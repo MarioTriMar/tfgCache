@@ -89,9 +89,9 @@ public class OrderService {
     Su función es buscar en la BBDD el pedido y devolverlo.
     En caso se no existir lanzará un 404.
      */
-    @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
-    public Order findOrderById(String id) {
-        Optional<Order> optOrder=this.orderDAO.findById(id);
+    @Cacheable(cacheNames = "order", key = "#orderId", condition = "#orderId!=null")
+    public Object findOrderById(String orderId) {
+        Optional<Order> optOrder=this.orderDAO.findById(orderId);
         if(optOrder.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order doesn't exist");
         }
