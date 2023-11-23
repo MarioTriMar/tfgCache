@@ -74,7 +74,7 @@ public class CompanyService {
     Si la encuentra la devuelve.
      */
     @Cacheable(cacheNames = "company", key="#id", condition = "#id!=null")
-    public Company findCompanyById(String id) throws JsonProcessingException {
+    public Company findCompanyById(String id){
         return this.companyRedis.findCompanyById(id);
     }
 
@@ -82,7 +82,7 @@ public class CompanyService {
     Este método devuelve la lista de compañías.
      */
     @Cacheable(cacheNames = "companies")
-    public List<Company> getAll() throws JsonProcessingException {
+    public List<Company> getAll(){
         return this.companyRedis.getAll();
     }
 
@@ -101,7 +101,7 @@ public class CompanyService {
             @CacheEvict(cacheNames = "product", allEntries = true)
     })
     @CachePut(cacheNames="company", key="#company.id", condition = "#company.id!=null")
-    public Company update(Company company) throws JsonProcessingException {
+    public Company update(Company company){
         return this.companyRedis.update(company);
     }
 
@@ -112,7 +112,7 @@ public class CompanyService {
     existCompany de la clase ControlMethods).
      */
     @Cacheable(cacheNames = "products", key="#id", condition = "#id!=null", unless="#result == null")
-    public List<Product> findCompanyProducts(String id) throws JsonProcessingException {
+    public List<Product> findCompanyProducts(String id){
         Company company=this.controlMethods.existCompany(id, false);
         return this.companyRedis.findCompanyProducts(id);
     }
@@ -133,7 +133,7 @@ public class CompanyService {
             @CacheEvict(cacheNames = "product", allEntries = true)
     })
     @CachePut(cacheNames="company", key="#companyId", condition = "#companyId!=null")
-    public Company changeState(String companyId) throws JsonProcessingException {
+    public Company changeState(String companyId){
         Company company=this.controlMethods.existCompany(companyId, false);
         company.setEnabled(!company.isEnabled());
         return this.companyRedis.changeState(company);

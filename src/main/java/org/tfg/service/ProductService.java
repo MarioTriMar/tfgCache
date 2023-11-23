@@ -73,7 +73,7 @@ public class ProductService {
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
     @CachePut(cacheNames = "product", key = "#id", condition = "#id!=null")
-    public Product updateProduct(String id, String name, String details, double price, boolean stock, String companyId) throws JsonProcessingException {
+    public Product updateProduct(String id, String name, String details, double price, boolean stock, String companyId){
         Company company=this.controlMethods.existCompany(companyId, true);
         Product product=this.controlMethods.existProduct(id, true);
         product.setCompany(company);
@@ -87,7 +87,7 @@ public class ProductService {
     Este método devuelve la lista con todos los productos.
      */
     @Cacheable(cacheNames = "products", key = "'allProducts'")
-    public List<Product> getAll() throws JsonProcessingException {
+    public List<Product> getAll(){
         return this.productRedis.getAll();
     }
 
@@ -105,7 +105,7 @@ public class ProductService {
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
     @CachePut(cacheNames = "product", key = "#productId", condition = "#productId!=null")
-    public Product changeStock(String productId, String companyId) throws JsonProcessingException {
+    public Product changeStock(String productId, String companyId){
         List<Product> productList=new ArrayList<>();
         Product product=this.controlMethods.existProduct(productId, false);
         productList.add(product);
@@ -122,7 +122,7 @@ public class ProductService {
     Si lo encuentra lo devuelve.
      */
     @Cacheable(cacheNames = "product", key="#id", condition = "#id!=null")
-    public Product getProductById(String id) throws JsonProcessingException {
+    public Product getProductById(String id){
         return this.productRedis.getProductById(id);
     }
 }

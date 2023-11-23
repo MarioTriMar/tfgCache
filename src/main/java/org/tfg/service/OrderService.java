@@ -58,7 +58,7 @@ public class OrderService {
             @CacheEvict(cacheNames = "order", allEntries = true),
             @CacheEvict(cacheNames = "money", key="#customerId")
     })
-    public void saveOrder(String companyId, String customerId, List<String> products) throws JsonProcessingException {
+    public void saveOrder(String companyId, String customerId, List<String> products){
         String id= UUID.randomUUID().toString();
         Timestamp creationTime=new Timestamp(System.currentTimeMillis());
         Company company=this.controlMethods.existCompany(companyId, true);
@@ -98,7 +98,7 @@ public class OrderService {
     Este método devuelve una lista con todos los pedidos.
      */
     @Cacheable(cacheNames = "orders", key = "'allOrders'")
-    public List<Order> getAll() throws JsonProcessingException {
+    public List<Order> getAll(){
         return this.orderRedis.getAll();
     }
 
@@ -108,7 +108,7 @@ public class OrderService {
     En caso se no existir lanzará un 404.
      */
     @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
-    public Order findOrderById(String id) throws JsonProcessingException {
+    public Order findOrderById(String id){
         return this.orderRedis.findOrderById(id);
     }
 
@@ -118,7 +118,7 @@ public class OrderService {
     de pedidos de una compañía.
      */
     @Cacheable(cacheNames = "companiesOrders", key="#companyId", condition = "#companyId!=null")
-    public List<Order> findByCompanyId(String companyId) throws JsonProcessingException {
+    public List<Order> findByCompanyId(String companyId){
         Company company=this.controlMethods.existCompany(companyId, false);
         return this.orderRedis.findByCompanyId(company);
     }
@@ -129,7 +129,7 @@ public class OrderService {
     de pedidos de un cliente.
      */
     @Cacheable(cacheNames="customersOrders", key="#customerId", condition = "#customerId!=null")
-    public List<Order> findByCustomerId(String customerId) throws JsonProcessingException {
+    public List<Order> findByCustomerId(String customerId){
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderRedis.findByCustomerId(customer);
     }
@@ -140,7 +140,7 @@ public class OrderService {
     de pedidos de un cliente y calculará el dinero gastado por el cliente.
      */
     @Cacheable(cacheNames="money", key="#customerId", condition = "#customerId!=null")
-    public double getTotalMoney(String customerId) throws JsonProcessingException {
+    public double getTotalMoney(String customerId){
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         return this.orderRedis.getTotalMoney(customer);
     }
