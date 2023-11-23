@@ -68,7 +68,7 @@ public class ProductRedis {
             @CacheEvict(cacheNames = "products", key = "#product.company.id"),
             @CacheEvict(cacheNames = "products", key = "'allProducts'")
     })
-    @CachePut(cacheNames = "product", key = "#product.id", condition = "#productId!=null")
+    @CachePut(cacheNames = "product", key = "#product.id", condition = "#product.id!=null")
     public Product changeStock(Product product){
         String message=port+"/changeStock/"+product.getCompany().getId();
         redisTemplate.convertAndSend(topic.getTopic(),message);

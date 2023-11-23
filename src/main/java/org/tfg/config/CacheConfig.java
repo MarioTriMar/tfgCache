@@ -19,11 +19,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 import org.springframework.cache.interceptor.CacheErrorHandler;
-import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.tfg.subscriber.Receiver;
 
 
@@ -56,13 +53,13 @@ public class CacheConfig implements CachingConfigurer {
         return RedisCacheManager.builder(redisConnectionFactory)
                 .withCacheConfiguration("companies",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("company",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
                 .withCacheConfiguration("products",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("product",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
@@ -71,19 +68,22 @@ public class CacheConfig implements CachingConfigurer {
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
                 .withCacheConfiguration("customers",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("order",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("customersOrders",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("companiesOrders",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("orders",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
+                .withCacheConfiguration("money",
+                        RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
                 .build();
     }
 

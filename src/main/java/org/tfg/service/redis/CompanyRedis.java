@@ -87,7 +87,7 @@ public class CompanyRedis {
             @CacheEvict(cacheNames="products", key="'allProducts'"),
             @CacheEvict(cacheNames = "product", allEntries = true)
     })
-    @CachePut(cacheNames="company", key="#company.id", condition = "#companyId!=null")
+    @CachePut(cacheNames="company", key="#company.id", condition = "#company.id!=null")
     public Company changeState(Company company){
         String message=port+"/changeCompanyState/"+company.getId();
         redisTemplate.convertAndSend(topic.getTopic(), message);

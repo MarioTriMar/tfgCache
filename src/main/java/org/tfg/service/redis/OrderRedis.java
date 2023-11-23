@@ -52,7 +52,7 @@ public class OrderRedis {
     }
 
     @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
-    public Order findOrderById(String id){
+    public Object findOrderById(String id){
         Optional<Order> optOrder=this.orderDAO.findById(id);
         if(optOrder.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order doesn't exist");
@@ -60,17 +60,17 @@ public class OrderRedis {
         return optOrder.get();
     }
 
-    @Cacheable(cacheNames = "companiesOrders", key="#company.id", condition = "#companyId!=null")
+    @Cacheable(cacheNames = "companiesOrders", key="#company.id", condition = "#company.id!=null")
     public List<Order> findByCompanyId(Company company){
         return this.orderDAO.findByCompany(company);
     }
 
-    @Cacheable(cacheNames="customersOrders", key="#customer.id", condition = "#customerId!=null")
+    @Cacheable(cacheNames="customersOrders", key="#customer.id", condition = "#customer.id!=null")
     public List<Order> findByCustomerId(Customer customer){
         return this.orderDAO.findByCustomer(customer);
     }
 
-    @Cacheable(cacheNames="money", key="#customer.id", condition = "#customerId!=null")
+    @Cacheable(cacheNames="money", key="#customer.id", condition = "#customer.id!=null")
     public double getTotalMoney(Customer customer){
         double total=0;
         List<Order> orders=this.findByCustomerId(customer);
