@@ -1,5 +1,6 @@
 package org.tfg.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
@@ -32,6 +33,17 @@ import java.util.List;
 @EnableCaching
 public class CacheConfig implements CachingConfigurer {
 
+    @Value("${spring.redis.host}")
+    private String host;
+    @Value("${spring.redis.port}")
+    private Integer port;
+    @Bean
+    public LettuceConnectionFactory connectionFactory(){
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+        configuration.setHostName(host);
+        configuration.setPort(port);
+        return new LettuceConnectionFactory(configuration);
+    }
     @Bean
     @Primary
     public CacheManager localCacheManager() {
@@ -40,14 +52,7 @@ public class CacheConfig implements CachingConfigurer {
                 "orders", "companiesOrders", "customersOrders", "order", "company", "product"));
         return cacheManager;
     }
-    @Bean
-    public LettuceConnectionFactory connectionFactory(){
-        RedisProperties properties = properties();
-        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-        configuration.setHostName(properties.getHost());
-        configuration.setPort(properties.getPort());
-        return new LettuceConnectionFactory(configuration);
-    }
+
     @Bean
     public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
