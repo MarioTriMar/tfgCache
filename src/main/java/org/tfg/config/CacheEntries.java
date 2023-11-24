@@ -54,7 +54,7 @@ public class CacheEntries {
     }
 
     //Cada 5 minutos
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 300000)
     public void evictAllCaches() {
         logger.info("Cleaning cache");
         cacheManager.getCacheNames().stream()
