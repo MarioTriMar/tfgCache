@@ -33,7 +33,7 @@ public class ProductRedis {
 
     @Caching(evict={
             @CacheEvict(cacheNames = "products", key="'allProducts'"),
-            @CacheEvict(cacheNames = "products", key="#companyId")
+            @CacheEvict(cacheNames = "products", key="#product.company.id")
     })
     public void save(Product product){
         String message=port+"/saveProduct/"+product.getCompany().getId();
