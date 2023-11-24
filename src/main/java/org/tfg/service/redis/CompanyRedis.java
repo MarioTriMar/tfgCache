@@ -12,8 +12,6 @@ import org.tfg.model.Company;
 import org.tfg.model.Product;
 import org.tfg.repository.CompanyDAO;
 import org.tfg.repository.ProductDAO;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 

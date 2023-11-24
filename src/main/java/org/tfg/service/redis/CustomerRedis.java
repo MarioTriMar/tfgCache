@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.tfg.model.Customer;
 import org.tfg.repository.CustomerDAO;
-
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
