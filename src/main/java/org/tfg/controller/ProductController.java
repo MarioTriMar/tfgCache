@@ -34,7 +34,7 @@ public class ProductController {
     Esto se lo pasa al ProductService para registrarlo y guardarlo.
      */
     @PostMapping("/saveProduct")
-    public void saveProduct(@RequestBody Map<String, Object> info){
+    public Product saveProduct(@RequestBody Map<String, Object> info){
         logger.info("SAVING PRODUCT: "+info.toString());
 
         String name=info.get("name").toString();
@@ -42,7 +42,7 @@ public class ProductController {
         double price=(double)info.get("price");
         String companyId=info.get("companyId").toString();
 
-        this.productService.save(name, details, price, companyId);
+        return this.productService.save(name, details, price, companyId);
     }
 
     /*

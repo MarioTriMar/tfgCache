@@ -28,10 +28,10 @@ public class CustomerRedis {
     private int port;
 
     @CacheEvict(cacheNames = "customers", allEntries = true)
-    public void save(Customer customer){
+    public Customer save(Customer customer){
         String message=port+"/saveCustomer";
         redisTemplate.convertAndSend(topic.getTopic(),message);
-        this.customerDAO.save(customer);
+        return this.customerDAO.save(customer);
     }
 
     @Cacheable(cacheNames = "customer", key="#id", condition = "#id!=null")
