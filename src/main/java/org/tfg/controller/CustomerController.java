@@ -53,7 +53,7 @@ public class CustomerController {
     el id de un cliente. Su función es llamar al CustomerService y devolver dicho cliente.
      */
     @GetMapping("/getCustomerById/{id}")
-    public Customer getCustomerById(@PathVariable String id) throws JsonProcessingException {
+    public Customer getCustomerById(@PathVariable String id){
         logger.info("GETTING CUSTOMER BY ID: "+id);
         return this.customerService.findCustomerById(id);
     }
@@ -63,7 +63,7 @@ public class CustomerController {
     y devolver una lista con todos los clientes.
      */
     @GetMapping("/getCustomers")
-    public List<Customer> getCustomers() throws JsonProcessingException {
+    public List<Customer> getCustomers(){
         logger.info("GETTING ALL CUSTOMERS");
         return this.customerService.getAll();
     }
@@ -73,7 +73,7 @@ public class CustomerController {
     Esto se lo pasa al CustomerService para actualizar dicho cliente con los nuevos valores.
      */
     @PutMapping("/updateCustomer")
-    public Customer update(@RequestBody Customer customer) throws JsonProcessingException {
+    public Customer update(@RequestBody Customer customer){
         logger.info("UPDATING CUSTOMER: "+customer.toString());
         return this.customerService.update(customer);
     }
@@ -82,7 +82,7 @@ public class CustomerController {
     el id del cliente y llama al CustomerService para cambiar su estado.
      */
     @PutMapping("/changeState/{customerId}")
-    public Customer changeState(@PathVariable String customerId) throws JsonProcessingException {
+    public Customer changeState(@PathVariable String customerId){
         logger.info("CHANGING CUSTOMER STATE: "+customerId);
         return this.customerService.changeState(customerId);
     }

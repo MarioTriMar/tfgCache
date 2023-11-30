@@ -11,8 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="despliegue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/ProductController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +92,7 @@
       <recent name="org.tfg.repository" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.TfgCacheApplicationTest.getCustomerById">
     <configuration name="TfgCacheApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="19" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -106,6 +108,78 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TfgCacheApplicationTest.changeState" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tfgCache" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.tfg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.tfg" />
+      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
+      <option name="METHOD_NAME" value="changeState" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TfgCacheApplicationTest.findCompanyProductsError" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tfgCache" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.tfg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.tfg" />
+      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
+      <option name="METHOD_NAME" value="findCompanyProductsError" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TfgCacheApplicationTest.getCustomerById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tfgCache" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.tfg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.tfg" />
+      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
+      <option name="METHOD_NAME" value="getCustomerById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TfgCacheApplicationTest.indexAllCompanies" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="tfgCache" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.tfg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.tfg" />
+      <option name="MAIN_CLASS_NAME" value="org.tfg.TfgCacheApplicationTest" />
+      <option name="METHOD_NAME" value="indexAllCompanies" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TfgCacheApplicationTest.getCustomerById" />
+        <item itemvalue="JUnit.TfgCacheApplicationTest.indexAllCompanies" />
+        <item itemvalue="JUnit.TfgCacheApplicationTest.changeState" />
+        <item itemvalue="JUnit.TfgCacheApplicationTest.findCompanyProductsError" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

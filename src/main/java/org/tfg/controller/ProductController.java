@@ -50,7 +50,7 @@ public class ProductController {
     el id de un producto. Su función es llamar al ProductService y devolver dicho producto.
      */
     @GetMapping("/getProductById/{id}")
-    public Product getProductById(@PathVariable String id) throws JsonProcessingException {
+    public Product getProductById(@PathVariable String id){
         return this.productService.getProductById(id);
     }
 
@@ -67,7 +67,7 @@ public class ProductController {
     Esto se lo pasa al ProductService para actualizar dicho producto con los nuevos valores.
      */
     @PutMapping("/updateProduct")
-    public Product updateProduct(@RequestBody Map<String,Object> product) throws JsonProcessingException {
+    public Product updateProduct(@RequestBody Map<String,Object> product){
         logger.info("UPDATING PRODUCT: "+product.toString());
 
         String id=product.get("id").toString();
@@ -84,7 +84,7 @@ public class ProductController {
     una lista que contenga todos los productos.
      */
     @GetMapping("/getProducts")
-    public List<Product> getAllProducts() throws JsonProcessingException {
+    public List<Product> getAllProducts(){
         logger.info("GETTING ALL PRODUCTS");
         return this.productService.getAll();
     }
@@ -94,7 +94,7 @@ public class ProductController {
     el id del producto y llama al ProductService para cambiar su stock.
      */
     @PutMapping("/changeStock/{productId}/{companyId}")
-    public Product changeStock(@PathVariable String productId, @PathVariable String companyId) throws JsonProcessingException {
+    public Product changeStock(@PathVariable String productId, @PathVariable String companyId){
         logger.info("CHANGING STOCK OF PRODUCT: "+productId);
         return this.productService.changeStock(productId, companyId);
     }

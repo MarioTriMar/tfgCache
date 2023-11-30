@@ -52,7 +52,7 @@ public class CompanyController {
     }
 
     @GetMapping("/getCompanyById/{id}")
-    public Company getCompanyById(@PathVariable String id) throws JsonProcessingException {
+    public Company getCompanyById(@PathVariable String id){
         logger.info("GETTING COMPANY BY ID: "+id);
         return this.companyService.findCompanyById(id);
     }
@@ -62,7 +62,7 @@ public class CompanyController {
     una lista que contenga todas las compañías.
      */
     @GetMapping("/getCompanies")
-    public List<Company> getCompanies() throws JsonProcessingException {
+    public List<Company> getCompanies(){
         logger.info("GETTING ALL COMPANIES");
         return this.companyService.getAll();
     }
@@ -73,7 +73,7 @@ public class CompanyController {
     los productos de dicha compañía.
      */
     @GetMapping("/getCompanyProducts/{id}")
-    public List<Product> getCompanyProducts(@PathVariable String id) throws JsonProcessingException {
+    public List<Product> getCompanyProducts(@PathVariable String id){
         logger.info("GETTING COMPANY PRODUCTS BY ID: "+id);
         return this.companyService.findCompanyProducts(id);
     }
@@ -83,7 +83,7 @@ public class CompanyController {
     Esto se lo pasa al CompanyService para actualizar dicha compañía con los nuevos valores.
      */
     @PutMapping("/updateCompany")
-    public Company update(@RequestBody Company company) throws JsonProcessingException {
+    public Company update(@RequestBody Company company){
         logger.info("UPDATING COMPANY: "+company.toString());
         return this.companyService.update(company);
     }
@@ -93,7 +93,7 @@ public class CompanyController {
     el id de la compañía y llama al CompanyService para cambiar su estado.
      */
     @PutMapping("/changeState/{companyId}")
-    public Company changeState(@PathVariable String companyId) throws JsonProcessingException {
+    public Company changeState(@PathVariable String companyId){
         logger.info("CHANGING STATE COMPANY: "+companyId);
         return this.companyService.changeState(companyId);
     }

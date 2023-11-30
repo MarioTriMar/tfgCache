@@ -32,7 +32,7 @@ public class OrderController {
     Esto se lo pasa al OrderService para comprobar si se puede validar y guardarlo.
      */
     @PostMapping("/saveOrder")
-    public void saveOrder(@RequestBody Map<String, Object> info) throws JsonProcessingException {
+    public void saveOrder(@RequestBody Map<String, Object> info){
         logger.info("SAVING ORDER: "+info.toString());
 
         String companyId=info.get("companyId").toString();
@@ -47,7 +47,7 @@ public class OrderController {
     una lista con todos los pedidos.
      */
     @GetMapping("/getOrders")
-    public List<Order> getAll() throws JsonProcessingException {
+    public List<Order> getAll(){
         logger.info("GETTING ALL ORDERS");
         return this.orderService.getAll();
     }
@@ -57,7 +57,7 @@ public class OrderController {
     el id de un pedido. Su función es llamar al OrderService y devolver dicho pedido.
      */
     @GetMapping("/getOrderById/{id}")
-    public Object getOrderById(@PathVariable String id) throws JsonProcessingException {
+    public Object getOrderById(@PathVariable String id){
         logger.info("GETTING ORDER BY ID: "+id);
         return this.orderService.findOrderById(id);
     }
@@ -68,7 +68,7 @@ public class OrderController {
     de dicha compañía.
      */
     @GetMapping("/getOrdersOfCompany/{companyId}")
-    public List<Order> getOrdersOfCompany(@PathVariable String companyId) throws JsonProcessingException {
+    public List<Order> getOrdersOfCompany(@PathVariable String companyId){
         logger.info("GETTING ALL COMPANY ORDERS BY ID: "+companyId);
         return this.orderService.findByCompanyId(companyId);
     }
@@ -79,7 +79,7 @@ public class OrderController {
     de dicho cliente.
      */
     @GetMapping("/getOrdersOfCustomer/{customerId}")
-    public List<Order> getOrdersOfCustomer(@PathVariable String customerId) throws JsonProcessingException {
+    public List<Order> getOrdersOfCustomer(@PathVariable String customerId){
         logger.info("GETTING ALL CUSTOMER ORDERS BY ID: "+customerId);
         return this.orderService.findByCustomerId(customerId);
     }
@@ -90,7 +90,7 @@ public class OrderController {
     dinero que ha gastado el cliente.
      */
     @GetMapping("/totalMoney/{customerId}")
-    public double getTotalMoney(@PathVariable String customerId) throws JsonProcessingException {
+    public double getTotalMoney(@PathVariable String customerId){
         logger.info("GETTING TOTAL MONEY EXPEND BY CUSTOMER ID: "+customerId);
         return this.orderService.getTotalMoney(customerId);
     }
