@@ -1,11 +1,8 @@
 package org.tfg.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurer;
-import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -101,11 +98,6 @@ public class CacheConfig implements CachingConfigurer {
         return template;
     }
 
-    @Bean
-    @Primary
-    public RedisProperties properties(){
-        return new RedisProperties();
-    }
 
     @Override
     public CacheErrorHandler errorHandler() {

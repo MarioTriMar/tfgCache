@@ -1,18 +1,13 @@
 package org.tfg.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 import org.tfg.model.Customer;
-import org.tfg.repository.CustomerDAO;
 import org.tfg.service.redis.CustomerRedis;
 import java.util.List;
 
@@ -21,23 +16,10 @@ import java.util.List;
 public class CustomerService {
 
     @Autowired
-    private CustomerDAO customerDAO;
-    @Autowired
     private ControlMethods controlMethods;
 
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
-
-    @Autowired
-    private ChannelTopic topic;
-
-    @Value("${server.port}")
-    private int port;
-
-    @Autowired
     private CustomerRedis customerRedis;
-
-    private final ObjectMapper objectMapper=new ObjectMapper();
 
     /*
     Este método recibe por parametros el nombre y el email del cliente.

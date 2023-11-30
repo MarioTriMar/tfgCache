@@ -1,19 +1,15 @@
 package org.tfg.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import org.tfg.model.*;
-import org.tfg.repository.OrderDAO;
 import org.tfg.service.redis.OrderRedis;
 
 
@@ -24,20 +20,10 @@ import java.util.*;
 public class OrderService {
 
     @Autowired
-    private OrderDAO orderDAO;
-    @Autowired
     private ControlMethods controlMethods;
     @Autowired
-    private RedisTemplate<String,Object> redisTemplate;
-    @Autowired
-    private ChannelTopic topic;
-
-    @Value("${server.port}")
-    private int port;
-
-    @Autowired
     private OrderRedis orderRedis;
-    private final ObjectMapper objectMapper=new ObjectMapper();
+
 
     /*
     Este método recibe por parámetros el id de la compañía, el id del cliente y
