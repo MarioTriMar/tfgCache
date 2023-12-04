@@ -38,6 +38,20 @@ public class CacheConfig implements CachingConfigurer {
     private String host;
     @Value("${spring.redis.port}")
     private Integer port;
+
+    public static final String MONEY = "money";
+    public static final String PRODUCTS = "products";
+    public static final String COMPANIES = "companies";
+    public static final String CUSTOMERS = "customers";
+    public static final String CUSTOMER = "customer";
+    public static final String ORDERS = "orders";
+    public static final String COMPANIES_ORDERS = "companiesOrders";
+    public static final String CUSTOMERS_ORDERS = "customersOrders";
+    public static final String ORDER = "order";
+    public static final String COMPANY = "company";
+    public static final String PRODUCT = "product";
+    public static final String CHANNEL = "pubsub:cache-channel";
+
     @Bean
     public LettuceConnectionFactory connectionFactory(){
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
@@ -49,45 +63,45 @@ public class CacheConfig implements CachingConfigurer {
     @Primary
     public CacheManager localCacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
-        cacheManager.setCacheNames(List.of("money","products", "companies", "customers", "customer",
-                "orders", "companiesOrders", "customersOrders", "order", "company", "product"));
+        cacheManager.setCacheNames(List.of(MONEY,PRODUCTS, COMPANIES, CUSTOMERS, CUSTOMER,
+                ORDERS, COMPANIES_ORDERS, CUSTOMERS_ORDERS, ORDER, COMPANY, PRODUCT));
         return cacheManager;
     }
 
     @Bean
     public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
         return RedisCacheManager.builder(redisConnectionFactory)
-                .withCacheConfiguration("companies",
+                .withCacheConfiguration(COMPANIES,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
-                .withCacheConfiguration("company",
+                .withCacheConfiguration(COMPANY,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Company>(Company.class))))
-                .withCacheConfiguration("products",
+                .withCacheConfiguration(PRODUCTS,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
-                .withCacheConfiguration("product",
+                .withCacheConfiguration(PRODUCT,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Product>(Product.class))))
-                .withCacheConfiguration("customer",
+                .withCacheConfiguration(CUSTOMER,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Customer>(Customer.class))))
-                .withCacheConfiguration("customers",
+                .withCacheConfiguration(CUSTOMERS,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
-                .withCacheConfiguration("order",
+                .withCacheConfiguration(ORDER,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Order>(Order.class))))
-                .withCacheConfiguration("customersOrders",
+                .withCacheConfiguration(CUSTOMERS_ORDERS,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
-                .withCacheConfiguration("companiesOrders",
+                .withCacheConfiguration(COMPANIES_ORDERS,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
-                .withCacheConfiguration("orders",
+                .withCacheConfiguration(ORDERS,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new CustomRedisSerializer())))
-                .withCacheConfiguration("money",
+                .withCacheConfiguration(MONEY,
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Company>(Company.class))))
                 .build();
@@ -110,7 +124,7 @@ public class CacheConfig implements CachingConfigurer {
 
     @Bean
     public ChannelTopic topic(){
-        return new ChannelTopic("pubsub:cache-channel");
+        return new ChannelTopic(CHANNEL);
     }
 
     @Bean
