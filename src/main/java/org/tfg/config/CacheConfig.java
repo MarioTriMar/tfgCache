@@ -19,6 +19,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.*;
 import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.tfg.model.Company;
 import org.tfg.subscriber.Receiver;
 
 
@@ -58,7 +59,7 @@ public class CacheConfig implements CachingConfigurer {
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
                 .withCacheConfiguration("company",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
-                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer())))
+                                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Company>(Company.class))))
                 .withCacheConfiguration("products",
                         RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(20))
                                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class))))
