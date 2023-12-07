@@ -40,12 +40,12 @@ public class CustomerController {
 
         String name=info.get("name").toString();
         String email=info.get("email").toString();
-
+        String id=info.get("id").toString();
         if(!pattern.matcher(email).find()){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Incorrect email");
         }
 
-        return this.customerService.save(name, email);
+        return this.customerService.save(id, name, email);
     }
 
     /*

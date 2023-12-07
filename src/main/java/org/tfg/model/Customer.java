@@ -33,9 +33,9 @@ public class Customer implements Serializable {
     //flag para el estado del cliente
 
     public Customer(){
-        this.id= UUID.randomUUID().toString();
-    }
 
+    }
+    
     public String getId() {
         return id;
     }

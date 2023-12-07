@@ -27,8 +27,9 @@ public class CustomerService {
     Guarda el cliente en la BBDD.
      */
     @CacheEvict(cacheNames = "customers", allEntries = true)
-    public Customer save(String name, String email){
+    public Customer save(String id, String name, String email){
         Customer customer=new Customer();
+        customer.setId(id);
         customer.setName(name);
         customer.setEmail(email);
         customer.setEnabled(true);

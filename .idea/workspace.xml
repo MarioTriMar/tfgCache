@@ -11,7 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="serialization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/model/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cacheLocal" />
+        <entry key="$PROJECT_DIR$" value="localRedisAnnotations" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -67,21 +69,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultPlantUmlFileTemplate&quot;: &quot;UML Sequence&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;localRedisAnnotations&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mtrivino/IdeaProjects/tfgCache/target&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultPlantUmlFileTemplate": "UML Sequence",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "localRedis2Micro",
+    "last_opened_file_path": "C:/Users/mtrivino/IdeaProjects/tfgCache/target",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.tfg.service" />
@@ -186,11 +188,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TfgCacheApplicationTest.findCustomerWrongId" />
-        <item itemvalue="JUnit.TfgCacheApplicationTest.getAllProducts" />
         <item itemvalue="JUnit.TfgCacheApplicationTest.wrongEmailCustomerRegister" />
-        <item itemvalue="JUnit.TfgCacheApplicationTest.changeProductStock" />
         <item itemvalue="JUnit.TfgCacheApplicationTest.saveProduct" />
+        <item itemvalue="JUnit.TfgCacheApplicationTest.getAllProducts" />
+        <item itemvalue="JUnit.TfgCacheApplicationTest.findCustomerWrongId" />
+        <item itemvalue="JUnit.TfgCacheApplicationTest.changeProductStock" />
       </list>
     </recent_temporary>
   </component>
@@ -567,6 +569,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/tfg/service/redis/OrderRedis.java</url>
           <line>74</line>
           <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/tfg/controller/CustomerController.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="114" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
