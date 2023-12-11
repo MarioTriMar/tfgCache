@@ -53,8 +53,8 @@ public class CustomerService {
     Este método recibe por parametro un cliente.
     Su función es actualizar el cliente.
      */
-    public void update(Customer customer) {
-        this.customerDAO.save(customer);
+    public Customer update(Customer customer) {
+        return this.customerDAO.save(customer);
     }
 
     /*
@@ -64,9 +64,9 @@ public class CustomerService {
     método existCustomer de la clase ControlMethods), cambiará el estado si
     este existe y lo guardará.
      */
-    public void changeState(String customerId) {
+    public Customer changeState(String customerId) {
         Customer customer=this.controlMethods.existCustomer(customerId, false);
         customer.setEnabled(!customer.isEnabled());
-        this.customerDAO.save(customer);
+        return this.customerDAO.save(customer);
     }
 }

@@ -66,8 +66,8 @@ public class CompanyService {
     Este método recibe por parametro una compañía.
     Su función es actualizarla.
      */
-    public void update(Company company) {
-        this.companyDAO.save(company);
+    public Company update(Company company) {
+        return this.companyDAO.save(company);
     }
 
 
@@ -87,9 +87,9 @@ public class CompanyService {
     Su función es cambiar el estado en el que esta se encuentra.
     Primero comprobará la existencia de esta.
      */
-    public void changeState(String companyId) {
+    public Company changeState(String companyId) {
         Company company=this.controlMethods.existCompany(companyId, false);
         company.setEnabled(!company.isEnabled());
-        this.companyDAO.save(company);
+        return this.companyDAO.save(company);
     }
 }

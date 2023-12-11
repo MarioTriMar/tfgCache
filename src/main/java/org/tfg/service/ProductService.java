@@ -49,7 +49,7 @@ public class ProductService {
     Primero comprueba si existen y si están activos o en stock la compañía y el producto.
     Después actualiza los valores y guarda el producto.
      */
-    public void updateProduct(String id, String name, String details, double price, boolean stock, String companyId) {
+    public Product updateProduct(String id, String name, String details, double price, boolean stock, String companyId) {
         Company company=this.controlMethods.existCompany(companyId, true);
         Product product=this.controlMethods.existProduct(id, true);
         product.setCompany(company);
@@ -57,7 +57,7 @@ public class ProductService {
         product.setPrice(price);
         product.setName(name);
         product.setStock(stock);
-        this.productDAO.save(product);
+        return this.productDAO.save(product);
     }
 
     /*
@@ -72,10 +72,10 @@ public class ProductService {
     Su función es cambiar el estado del stock. Primero comprueba si el producto
     existe.
      */
-    public void changeStock(String productId) {
+    public Product changeStock(String productId) {
         Product product=this.controlMethods.existProduct(productId, false);
         product.setStock(!product.isStock());
-        this.productDAO.save(product);
+        return this.productDAO.save(product);
     }
 
     /*

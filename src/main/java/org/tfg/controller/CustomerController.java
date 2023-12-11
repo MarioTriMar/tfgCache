@@ -72,18 +72,18 @@ public class CustomerController {
     Esto se lo pasa al CustomerService para actualizar dicho cliente con los nuevos valores.
      */
     @PutMapping("/updateCustomer")
-    public void update(@RequestBody Customer customer){
+    public Customer update(@RequestBody Customer customer){
         logger.info("UPDATING CUSTOMER: "+customer.toString());
-        this.customerService.update(customer);
+        return this.customerService.update(customer);
     }
     /*
     Este método es llamado mediante una petición PUT. Se le pasa como PathVariable
     el id del cliente y llama al CustomerService para cambiar su estado.
      */
     @PutMapping("/changeState/{customerId}")
-    public void changeState(@PathVariable String customerId){
+    public Customer changeState(@PathVariable String customerId){
         logger.info("CHANGING CUSTOMER STATE: "+customerId);
-        this.customerService.changeState(customerId);
+        return this.customerService.changeState(customerId);
     }
 
 }
