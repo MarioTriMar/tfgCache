@@ -30,13 +30,13 @@ public class CompanyService {
      */
 
     @CacheEvict(cacheNames="companies", allEntries = true)
-    public Company save(String name, String cif, String contactEmail){
+    public void save(String name, String cif, String contactEmail){
         Company company=new Company();
         company.setName(name);
         company.setCif(cif);
         company.setContactEmail(contactEmail);
         company.setEnabled(true);
-        return this.companyRedis.save(company);
+        this.companyRedis.save(company);
     }
 
     /*

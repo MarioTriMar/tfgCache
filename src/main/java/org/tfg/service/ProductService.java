@@ -40,7 +40,7 @@ public class ProductService {
             @CacheEvict(cacheNames = "products", key="'allProducts'"),
             @CacheEvict(cacheNames = "products", key="#companyId")
     })
-    public Product save(String name, String details, double price, String companyId) {
+    public void save(String name, String details, double price, String companyId) {
         Company company=this.controlMethods.existCompany(companyId, true);
         Product product=new Product();
         product.setName(name);
@@ -48,7 +48,7 @@ public class ProductService {
         product.setPrice(price);
         product.setCompany(company);
         product.setStock(true);
-        return this.productRedis.save(product);
+        this.productRedis.save(product);
     }
     /*
     Este método recibe por parámetro el id, el nombre, los detalles, el precio

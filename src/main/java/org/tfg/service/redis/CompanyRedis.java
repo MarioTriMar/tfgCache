@@ -33,10 +33,10 @@ public class CompanyRedis {
     private int port;
 
     @CacheEvict(cacheNames="companies", allEntries = true)
-    public Company save(Company company){
+    public void save(Company company){
         String message=port+"/saveCompany";
         redisTemplate.convertAndSend(topic.getTopic(), message);
-        return this.companyDAO.save(company);
+        this.companyDAO.save(company);
     }
 
     @Cacheable(cacheNames = "company", key="#id", condition = "#id!=null")

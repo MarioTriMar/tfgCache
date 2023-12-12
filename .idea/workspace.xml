@@ -9,9 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="serialization">
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="return updates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/config/CacheConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/CustomerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/redis/CompanyRedis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/redis/CompanyRedis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/redis/CustomerRedis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/redis/CustomerRedis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/service/redis/ProductRedis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/service/redis/ProductRedis.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

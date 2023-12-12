@@ -34,10 +34,10 @@ public class ProductRedis {
             @CacheEvict(cacheNames = "products", key="'allProducts'"),
             @CacheEvict(cacheNames = "products", key="#product.company.id")
     })
-    public Product save(Product product){
+    public void save(Product product){
         String message=port+"/saveProduct/"+product.getCompany().getId();
         redisTemplate.convertAndSend(topic.getTopic(), message);
-        return this.productDAO.save(product);
+        this.productDAO.save(product);
     }
     @Caching(evict = {
             @CacheEvict(cacheNames = "orders", allEntries = true),

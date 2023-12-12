@@ -27,12 +27,12 @@ public class CustomerService {
     Guarda el cliente en la BBDD.
      */
     @CacheEvict(cacheNames = "customers", allEntries = true)
-    public Customer save(String name, String email){
+    public void save(String name, String email){
         Customer customer=new Customer();
         customer.setName(name);
         customer.setEmail(email);
         customer.setEnabled(true);
-        return this.customerRedis.save(customer);
+        this.customerRedis.save(customer);
     }
 
     /*
