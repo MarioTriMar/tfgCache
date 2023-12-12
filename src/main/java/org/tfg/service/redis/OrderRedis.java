@@ -52,7 +52,7 @@ public class OrderRedis {
     }
 
     @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
-    public Object findOrderById(String id){
+    public Order findOrderById(String id){
         Optional<Order> optOrder=this.orderDAO.findById(id);
         if(optOrder.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order doesn't exist");

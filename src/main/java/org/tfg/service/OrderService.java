@@ -93,7 +93,7 @@ public class OrderService {
     En caso se no existir lanzará un 404.
      */
     @Cacheable(cacheNames = "order", key = "#id", condition = "#id!=null")
-    public Object findOrderById(String id){
+    public Order findOrderById(String id){
         return this.orderRedis.findOrderById(id);
     }
 
