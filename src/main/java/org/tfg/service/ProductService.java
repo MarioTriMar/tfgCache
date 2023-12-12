@@ -25,8 +25,6 @@ public class ProductService {
     @Autowired
     private ProductDAO productDAO;
     @Autowired
-    private CompanyDAO companyDAO;
-    @Autowired
     private ControlMethods controlMethods;
 
 
