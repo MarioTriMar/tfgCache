@@ -41,17 +41,20 @@ public class CacheEntries {
 
     public void evict(String cacheName, String key) {
         Cache cache=cacheManager.getCache(cacheName);
-        cache.evict(key);
+        if (cache!=null)
+            cache.evict(key);
     }
 
     public void clean(String cacheName) {
         Cache cache=cacheManager.getCache(cacheName);
-        cache.clear();
+        if(cache!=null)
+            cache.clear();
     }
 
     public void update(String cacheName, String key, Object object){
         Cache cache=cacheManager.getCache(cacheName);
-        cache.put(key, object);
+        if(cache!=null)
+            cache.put(key, object);
     }
 
     //Cada 5 minutos

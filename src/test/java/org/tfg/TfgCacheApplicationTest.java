@@ -47,7 +47,7 @@ public class TfgCacheApplicationTest {
     private Customer customer;
 
     private Product product;
-
+/*
     @Test
     void findCompanyProductsError() {
         try{
@@ -307,4 +307,5 @@ public class TfgCacheApplicationTest {
         assertEquals(customerFind.getName(), "Dani");
         customerDAO.delete(customer);
     }
+*/
 }

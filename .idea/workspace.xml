@@ -9,8 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="fix nombre cache receiver">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/tfg/subscriber/Receiver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/tfg/subscriber/Receiver.java" afterDir="false" />
+    <list default="true" id="ec8ad36d-1501-46dd-8ced-5631a99d8345" name="Changes" comment="fix updateCustomer receiver">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/tfg/TfgCacheApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/tfg/TfgCacheApplicationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -474,7 +476,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707381392373</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="fix updateCustomer receiver">
+      <option name="closed" value="true" />
+      <created>1707381579644</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1707381579644</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -501,7 +511,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="belongsProductToCompany" />
     <MESSAGE value="jar not working" />
     <MESSAGE value="jar fixed + dockerfile" />
     <MESSAGE value="docker + mysql docker properties" />
@@ -526,7 +535,8 @@
     <MESSAGE value="void save" />
     <MESSAGE value="serialization 100%" />
     <MESSAGE value="fix nombre cache receiver" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix nombre cache receiver" />
+    <MESSAGE value="fix updateCustomer receiver" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix updateCustomer receiver" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
