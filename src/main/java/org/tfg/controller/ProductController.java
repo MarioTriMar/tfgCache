@@ -20,7 +20,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    private Logger logger= LoggerFactory.getLogger(ProductController.class);
+    private final Logger logger= LoggerFactory.getLogger(ProductController.class);
 
 
     /*

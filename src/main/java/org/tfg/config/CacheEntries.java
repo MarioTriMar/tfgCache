@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
@@ -23,7 +22,7 @@ public class CacheEntries {
     @Qualifier("localCacheManager")
     private CacheManager cacheManager;
 
-    private Logger logger= LoggerFactory.getLogger(CacheEntries.class);
+    private final Logger logger= LoggerFactory.getLogger(CacheEntries.class);
     /*
     Este método recibe por parámetros el nombre de una de las cachés. Su función es
     devolver un Map con todos los datós de dicha caché.
@@ -49,12 +48,6 @@ public class CacheEntries {
         Cache cache=cacheManager.getCache(cacheName);
         if(cache!=null)
             cache.clear();
-    }
-
-    public void update(String cacheName, String key, Object object){
-        Cache cache=cacheManager.getCache(cacheName);
-        if(cache!=null)
-            cache.put(key, object);
     }
 
     //Cada 5 minutos

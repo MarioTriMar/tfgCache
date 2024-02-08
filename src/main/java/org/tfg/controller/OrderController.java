@@ -20,7 +20,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    private Logger logger= LoggerFactory.getLogger(OrderController.class);
+    private final Logger logger= LoggerFactory.getLogger(OrderController.class);
 
     /*
      Este método es llamado mediante petición POST. Toma como entrada un MAP

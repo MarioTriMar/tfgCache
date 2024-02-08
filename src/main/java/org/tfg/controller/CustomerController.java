@@ -22,7 +22,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    private Logger logger= LoggerFactory.getLogger(CustomerController.class);
+    private final Logger logger= LoggerFactory.getLogger(CustomerController.class);
 
     /*
     Este método es llamado mediante petición POST. Toma como entrada un MAP
