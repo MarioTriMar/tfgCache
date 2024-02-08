@@ -48,6 +48,7 @@ public class Receiver implements MessageListener {
         cacheEntries.clean("orders");
         cacheEntries.clean("companiesOrders");
         cacheEntries.clean("order");
+        cacheEntries.evict("customer", customerId);
         cacheEntries.clean("customers");
         cacheEntries.evict("customersOrders", customerId);
     }
